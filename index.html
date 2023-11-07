@@ -1,183 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio SAD</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top shadow-sm" id="navbar">
-        <div class="container">
-            <a href="#"><img src="https://ik.imagekit.io/azhardanii/uqi_YCR2rPLoD.png" alt="AzharDanii Logo" width="38" height="37" class="d-inline-block" style="margin-right: .4rem !important;" id="header-img"></a>
-            <a class="navbar-brand fs-3 fw-bold" href="#">AzharDanii</a>            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav fs-5 ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" aria-current="page" href="#welcome-section">About</a>
-                    </li>                   
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#projects">Projects</a>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Azhardanii | DiurnaLinks</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="https://drive.google.com/uc?id=1zvoub3w9rmvxLRKIE99jrF4G9_73GdOu">
+        <link rel="icon" type="image/png" sizes="32x32" href="https://drive.google.com/uc?id=1XA7_nvSXs8Ke1WLmO71pbIA4H3wdv2LV">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://drive.google.com/uc?id=15LyCq5qraUKOsi9vwWGdzuv8csC_nbue">
+        <link rel="preload" href="bgnature.jpg" as="image" />  
+        <style>body, html {margin: 0;padding: 0;font-family: 'Open Sans', sans-serif;color: #fff;box-sizing: border-box;}body {margin: 0;padding: 0;background: url(bgnature.jpg) no-repeat center center fixed;background-size: cover;overflow-x: hidden;}main {width: 100%;display: flex;flex-direction: column;justify-content: center;align-items: center;min-height: 100vh;}section {flex-grow: 1;margin-top: 2.6em;width: 100%;}#vanta {z-index: 0;position: absolute;left: 0;top: 0;width: 100%;height: 100%;}.animated {opacity: 0;filter: blur(10px);transition: opacity 2s ease-in-out, filter 2s ease-in-out;}header {text-align: center;display: flex;flex-direction: column;align-items: center;}header > img {padding: -100px 0 0 -100px;width: 6em;border-radius: 100%;box-shadow: rgb(28 32 93 / 24%) 0px 2px 8px 0px;}header > h1 {display: inline-block;font-size: 0.8em;font-weight: bold;border-radius: 1em;background-color: #000a;color: #fff;padding: 0.3em 0.6em 0 0.6em;border: 1px solid #fffa;backdrop-filter: blur(10px) saturate(160%) contrast(180%);-webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);}header > h2 {display: inline-block;position: relative;font-size: 0.9em;font-weight: 600;padding: 0.4em 0.6em;margin: 0;color: #fff;line-height: 1.5em;}header > h2 > span {position: absolute;bottom: 0;left: 0;width: 100%;height: 100%;background-color: #00000055;border-radius: 2px;z-index: -1;backdrop-filter: blur(50px) saturate(160%) contrast(180%);-webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);}header > p {display: inline-block;font-size: 0.65em;font-weight: bold;margin-top: 7px;padding: 0 0.6em;}ul {box-sizing: border-box;list-style: none;margin: 0 auto;padding: 0 2em;max-width: 480px;}ul > li {background-color: #fffa;backdrop-filter: blur(10px) saturate(160%) contrast(180%);-webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);border-radius: 10em;height: 50px;margin: 1.4em 0;box-shadow: rgb(28 32 93 / 24%) 0px 2px 8px 0px;transition: .3s ease-in-out;}ul > li:hover {background-color: #fff;transform: translateY(-5px);}ul > li > a {display: flex;justify-content: center;align-items: center;gap: 0.5em;padding: .8em 1em;}a {color: black;text-decoration: none;}footer {margin: 1.7em auto 0 auto;width: 100%;display: flex;flex-direction: column;justify-content: center;align-items: center;opacity: .85;}.created {display: flex;}.created img {margin-top: 16px;margin-left: 7px;border-radius: 5px;}.cta {width: 100%;height: 100%;padding: .25em;text-align: center;font-size: x-small;font-weight: 600;margin: .5em 0 0 0;letter-spacing: .1em;color: #fff;background-color: #000a;backdrop-filter: blur(10px) saturate(160%) contrast(180%);-webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);}.cta > p > a {color: #ffb200;transition: .3s ease-in-out;font-size: 11px;}.cta > p > a:hover {color: #ff5a00;}</style>   
+    </head>
+    <body>
+        <div id="vanta"></div>
+        <main class="animated">
+            <section>
+                <header>
+                    <img src="https://drive.google.com/uc?id=1QmFrlj4fCXTkf-Np3wgfnOlLyfL82Tn2" />
+                    <h1>Azhar Danii</h1>
+                    <h2 id="motto">"Life is Journey, not a Race.<br>And Website is a Part of That!"<span></span></h2>
+                    <p>~ WEB Enjoyneering ~</p>
+                </header>
+                <ul>        
+                    <li>
+                        <a href="https://github.com/azhardanii" target="_blank">
+                            <img src="https://drive.google.com/uc?id=1gKZTpHiaPCRR9gnoDq5mLMjTCdcU6ZZo" alt="Github" width="25" />
+                            Github
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#contact">Contact</a>
-                    </li>               
+                    <li>
+                        <a href="https://twitter.com/azhardanii" target="_blank">
+                            <img src="https://drive.google.com/uc?id=1oMR0jIqJOzYbF2zZDLNI0rEUSPKyPmFr" alt="Twitter" width="25" />
+                            Twitter
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/syauqi-azhar-danii-991524254/" target="_blank">
+                            <img src="https://drive.google.com/uc?id=1vpoKsJfq1fPgOAV0iV8BvxR5lwp9JG4M" alt="Linkedin" width="25" />
+                            Linkedin
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://instagram.com/azhardanii" target="_blank">
+                            <img src="https://drive.google.com/uc?id=1q3sfBoTPaLcShjJDrHA2JZ-qJIr9oRUk" alt="Instagram" width="25" />
+                            Instagram
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://wa.me/6285157991798" target="_blank">
+                            <img src="https://drive.google.com/uc?id=1VthCtrMjTOeutjfCp3hBNxr3QrVGQpoe" alt="WhatsApp" width="25" />
+                            WhatsApp
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://journeylabuanbajo.com" target="_blank"
+                            <img src="https://journeylabuanbajo.com/apple-touch-icon-precomposed.png" alt="Journey Labuan Bajo" width="25" />
+                            Journey Labuan Bajo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://jangkarsj.com" target="_blank">
+                            <img src="https://drive.google.com/uc?id=1T2z9STUjJ6VYR4WbWaivcvoSdEO5hdfX" alt="PT. Jangkar Shankara Jaya" width="30" style="margin:-3px 0;" />
+                            PT. Jangkar Shankara Jaya
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://xpixelspunk.com" target="_blank">
+                            <img src="https://drive.google.com/uc?id=1duVj9aVkpz5akEDbA-aoAf0zifITG3za" alt="XPixelspunk NFT" width="28" />
+                            Xpixelspunk NFT
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://diurnalweb.site" target="_blank">
+                            <img src="https://drive.google.com/uc?id=1mGxU8NwnTdqkTTyTAIUd2WPVZkuCfTn6" alt="Diurnal Web Project" width="25" />
+                            Diurnal Web Project
+                        </a>
+                    </li>
                 </ul>
-            </div>            
-        </div>
-    </nav>
-    <!-- Navbar End -->
-
-    <!-- Welcome -->
-    <section id="welcome-section">
-        <div class="welcome">
-            <div class="text-center">
-                <a href="https://www.freecodecamp.org/azhardanii" id="profile-link" target="_blank" style="text-decoration: none; color: black;">
-                    <img src="https://ik.imagekit.io/azhardanii/uqi_rGDruXXPXeU5.jpg" class="rounded-circle img-thumbnail img-welcome" width="220" alt="AzharDanii Profile">
-                    <h1 class="display-4">Syauqi AzharDanii</h1>
-                    <p class="lead">Freelancer | WEB Developer</p>
-                </a>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,64L360,64L720,192L1080,32L1440,32L1440,320L1080,320L720,320L360,320L0,320Z"></path></svg>
-        </div>       
-    </section>
-    <!-- Welcome End -->
-    
-    <!-- Projects -->
-    <section id="projects">
-        <div class="container project-tile">
-            <div class="row text-center pb-5">
-                <div class="col">
-                    <h2 class="fw-bold">My Projects</h2>
-                    <p>AzharDanii with freeCodeCamp in Responsive WEB Design Projects!</p>
+            </section>
+            <footer>
+                <div class="created">
+                    <p>Created with ❤️ by</p>
+                    <img width="25" height="25" src="https://drive.google.com/uc?id=1rVMnCC00ZSh_Wk5LRwPbYbaNTcpXvyqq" alt="Diurnal Web Project Logo">
+                </div>    
+                <div class="cta">
+                    <p>Create your own, FREE! Just fill this form <a href="https://wa.me/6285157991798?text=Haloo%20aku%20juga%20mau%20bikin%20DiurnaLinks%20dongg..." target="_blank">Request DiurnaLinks</a></p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <a href="https://codepen.io/syauqi-azhardanii/pen/gOgrmrv" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: 500; color: black;">
-                        <div class="card">
-                            <img src="https://i.ibb.co/kmzLCHk/project1.png" alt="Technical Documentation by AzharDanii x freeCodeCamp" class="img-thumbnail">
-                            <div class="card-body text-center">
-                                <p class="card-text fs-5">Technical Documentation</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <a href="https://codepen.io/syauqi-azhardanii/pen/xxgVbQr" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: 500; color: black;">
-                        <div class="card">
-                            <img src="https://i.ibb.co/0s1XYHj/project3.png" alt="Survey Form by AzharDanii x freeCodeCamp" class="img-thumbnail">
-                            <div class="card-body text-center">
-                                <p class="card-text fs-5">Survey Form</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <a href="https://codepen.io/syauqi-azhardanii/pen/dyNGpZd" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: 500; color: black;">
-                        <div class="card">
-                            <img src="https://i.ibb.co/hsRRR8S/project2.png" alt="Landing Page by AzharDanii x freeCodeCamp" class="img-thumbnail">
-                            <div class="card-body text-center">
-                                <p class="card-text fs-5">Landing Page</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <a href="https://codepen.io/syauqi-azhardanii/pen/poRgjxY" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: 500; color: black;">
-                        <div class="card">
-                            <img src="https://i.ibb.co/R7LPN3d/project4.png" alt="Tribute Page by AzharDanii x freeCodeCamp" class="img-thumbnail">
-                            <div class="card-body text-center">
-                                <p class="card-text fs-5">Tribute Page</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Projects End -->
-
-    <!-- Contact -->
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#99ffcc" fill-opacity="1" d="M0,32L240,160L480,160L720,288L960,192L1200,192L1440,64L1440,320L1200,320L960,320L720,320L480,320L240,320L0,320Z"></path></svg>
-    <section id="contact">
-        <div class="container">
-            <div class="row text-center pb-4">
-                <div class="col">
-                    <h2 class="fw-bold">Contact Me</h2>
-                    <p>I'm Always Waiting you to Invite and Work Together...</p>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="alert alert-success alert-dismissible fade show my-alert d-none" role="alert">
-                        <strong>Thankyou,</strong> your messange has been sent!
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <form name="submit-contactform-study">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" name="name" id="name" aria-describedby="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" name="email" id="email" aria-describedby="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Write your Message</label>
-                            <textarea class="form-control" name="message" id="message" rows="3" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-lg btn-success b-submit mt-2">Submit</button>
-
-                        <button class="btn btn-lg btn-success b-loading d-none" type="button" disabled>
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            Loading...
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Contact End -->
-
-    <!-- Footer -->
-    <footer class="bg-success text-white text-center myfoot">
-        <p>Created with <i class="bi bi-heart-fill text-danger"></i> by <a href="https://www.instagram.com/azhardanii/" class="text-white fw-bold" target="_blank" style="text-decoration: none;">AzharDanii</a></p>
-    </footer>
-    <!-- Footer End -->
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-    <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwVoVbclVs8Ogg9AkfZDvM4hFt_ZDQqjIHnfnlIvsvmNJ97IJ9sPie2__R2pgYw-o0f/exec'
-        const form = document.forms['submit-contactform-study'];
-        const btnSubmit = document.querySelector('.b-submit');
-        const btnLoading = document.querySelector('.b-loading');
-        const myAlert = document.querySelector('.my-alert');
-      
-        form.addEventListener('submit', e => {
-          e.preventDefault();
-          // when button submit clicked, show loading button and hidden submit button
-          btnLoading.classList.toggle('d-none');
-          btnSubmit.classList.toggle('d-none');
-          fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-            .then(response => {
-                // show submit button, hidden loading button, and notif by alert
-                btnLoading.classList.toggle('d-none');
-                btnSubmit.classList.toggle('d-none');
-                myAlert.classList.toggle('d-none');
-                // reset form
-                form.reset();
-                console.log('Success!', response);
-            })
-            .catch(error => console.error('Error!', error.message))
-        })
-      </script>
-</body>
+            </footer>
+        </main>        
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+    <script>window.addEventListener("DOMContentLoaded",(()=>{VANTA.BIRDS({el:"#vanta",mouseControls:!0,touchControls:!0,gyroControls:!0,minHeight:200,minWidth:200,scale:1,scaleMobile:1,color1:9671571,color2:0,colorMode:"lerp",birdSize:1.5,wingSpan:20,alignment:100,separation:100,quantity:2,backgroundAlpha:0}),setTimeout((()=>{const o=document.querySelector("main");o.style.opacity=1,o.style.filter="blur(0px)"}),1e3)}));</script>
 </html>
