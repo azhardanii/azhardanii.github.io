@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            http-equiv="X-UA-Compatible"
+            content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+        <title>Azhardanii | DiurnaLinks</title>
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="img/sad180.webp" />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="img/sad32.webp" />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="img/sad16.webp" />
+        <link
+            rel="stylesheet"
+            href="app.css" />
+        <link
+            rel="preload"
+            href="img/bgnature.webp"
+            as="image" />
+    </head>
+    <body>
+        <div id="vanta"></div>
+        <main class="animated">
+            <section>
+                <header>
+                    <img src="img/sad-xrp.webp" />
+                    <h1>Azhar Danii</h1>
+                    <h2 id="motto">"Life is Journey, not a Race.<br />And Website is a Part of That!"<span></span></h2>
+                    <p>~ WEB Enjoyneering ~</p>
+                </header>
+                <ul>
+                    <li>
+                        <a
+                            href="https://github.com/azhardanii"
+                            target="_blank">
+                            <img
+                                src="img/sosmed-icon/github-logo.webp"
+                                alt="Github"
+                                width="25" />
+                            Github
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://twitter.com/azhardanii"
+                            target="_blank">
+                            <img
+                                src="img/xpixelspunk.webp"
+                                alt="Twitter"
+                                width="25" />
+                            Twitter
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href=""
+                            target="_blank">
+                            <img
+                                src="img/jsj.webp"
+                                alt="Linkedin"
+                                width="25" />
+                            Linkedin
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://instagram.com/azhardanii"
+                            target="_blank">
+                            <img
+                                src="img/jlb-logo.webp"
+                                alt="Instagram"
+                                width="25" />
+                            Instagram
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://wa.me/6285157991798"
+                            target="_blank">
+                            <img
+                                src="img/dwp.webp"
+                                alt="WhatsApp"
+                                width="25" />
+                            WhatsApp
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://shopee.co.id/bhumi_medica"
+                            target="_blank">
+                            <img
+                                src="img/bhumi-medica.webp"
+                                alt="Bhumi Medica"
+                                width="33"
+                                style="margin-top: -6px; margin-bottom: -3px" />
+                            Bhumi Medica
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://diurnalweb.site"
+                            target="_blank">
+                            <img
+                                src="img/drn180.webp"
+                                alt="Diurnal Web Project"
+                                width="25" />
+                            Diurnal Web Project
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            <footer>
+                <div class="created">
+                    <p>Created with ❤️ by</p>
+                    <img
+                        width="25"
+                        height="25"
+                        src="img/drn180.webp"
+                        alt="Diurnal Web Project Logo" />
+                </div>
+                <div class="cta">
+                    <p>
+                        Create your own, FREE! Just fill this form
+                        <a
+                            href="https://wa.me/6285157991798?text=Haloo%20aku%20juga%20mau%20bikin%20DiurnaLinks%20dongg..."
+                            target="_blank"
+                            >Request DiurnaLinks</a
+                        >
+                    </p>
+                </div>
+            </footer>
+        </main>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            VANTA.BIRDS({
+                el: '#vanta',
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: true,
+                minHeight: 200.0,
+                minWidth: 200.0,
+                scale: 1.0,
+                scaleMobile: 1.0,
+                color1: 0x939393,
+                color2: 0x0,
+                colorMode: 'lerp',
+                birdSize: 1.5,
+                wingSpan: 20.0,
+                alignment: 100.0,
+                separation: 100.0,
+                quantity: 2.0,
+                backgroundAlpha: 0.0,
+            });
+
+            setTimeout(() => {
+                const main = document.querySelector('main');
+
+                main.style.opacity = 1;
+                main.style.filter = 'blur(0px)';
+            }, 1000);
+        });
+    </script>
+</html>

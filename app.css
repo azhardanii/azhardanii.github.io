@@ -1,0 +1,187 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    color: #fff;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: url(img/bgnature.webp) no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+section {
+    flex-grow: 1;
+    margin-top: 2.6em;
+    width: 100%;
+}
+
+#vanta {
+    z-index: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.animated {
+    opacity: 0;
+    filter: blur(10px);
+    transition: opacity 2s ease-in-out, filter 2s ease-in-out;
+}
+
+header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header > img {
+    padding: -100px 0 0 -100px;
+    width: 6em;
+    border-radius: 100%;
+    box-shadow: rgb(28 32 93 / 24%) 0px 2px 8px 0px;
+}
+
+header > h1 {
+    display: inline-block;
+    font-size: 0.8em;
+    font-weight: bold;
+    border-radius: 1em;
+    background-color: #000a;
+    color: #fff;
+    padding: 0.3em 0.6em 0.3em 0.6em;
+    border: 1px solid #fffa;
+    backdrop-filter: blur(10px) saturate(160%) contrast(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);
+}
+
+header > h2 {
+    display: inline-block;
+    position: relative;
+    font-size: 0.9em;
+    font-weight: 600;
+    padding: 0.4em 0.6em;
+    margin: 0;
+    color: #fff;
+    line-height: 1.5em;
+}
+
+header > h2 > span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000055;
+    border-radius: 2px;
+    z-index: -1;
+    backdrop-filter: blur(50px) saturate(160%) contrast(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);
+}
+
+header > p {
+    display: inline-block;
+    font-size: 0.65em;
+    font-weight: bold;
+    margin-top: 7px;
+    padding: 0 0.6em;
+}
+
+ul {
+    box-sizing: border-box;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0 2em;
+    max-width: 480px;
+}
+
+ul > li {
+    background-color: #fffa;
+    backdrop-filter: blur(10px) saturate(160%) contrast(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);
+    border-radius: 10em;
+    height: 50px;
+    margin: 1.4em 0;
+    box-shadow: rgb(28 32 93 / 24%) 0px 2px 8px 0px;
+    transition: 0.3s ease-in-out;
+}
+
+ul > li:hover {
+    background-color: #fff;
+    transform: translateY(-5px);
+}
+
+ul > li > a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.8em 1em;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+footer {
+    margin: 1.7em auto 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.85;
+}
+
+.created {
+    display: flex;
+}
+
+.created img {
+    margin-top: 16px;
+    margin-left: 7px;
+    border-radius: 5px;
+}
+
+.cta {
+    width: 100%;
+    height: 100%;
+    padding: 0.25em;
+    text-align: center;
+    font-size: x-small;
+    font-weight: 600;
+    margin: 0.5em 0 0 0;
+    letter-spacing: 0.1em;
+    color: #fff;
+    background-color: #000a;
+    backdrop-filter: blur(10px) saturate(160%) contrast(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);
+}
+
+.cta > p > a {
+    color: #ffb200;
+    transition: 0.3s ease-in-out;
+    font-size: 11px;
+}
+
+.cta > p > a:hover {
+    color: #ff5a00;
+}
