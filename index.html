@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syauqi Azhar Danii | Full-Stack Web Developer &amp; WFA Digipreneur</title>
+  <meta name="description"
+    content="Full-Stack Web Developer &amp; WFA Digipreneur. I build custom, high-converting websites and unique AI tools tailored for your business.">
+  <meta name="keywords"
+    content="Syauqi Azhar Danii, uqiazhardanii, Full-Stack Developer, WFA Digipreneur, Web Developer, Webflow, React, Next.js, Tools AI, Sekolah WFA, Indonesia">
+  <meta name="author" content="Syauqi Azhar Danii">
+  <link rel="canonical" href="https://syauqi.dev">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Syauqi Azhar Danii | Full-Stack Web Developer &amp; WFA Digipreneur">
+  <meta property="og:description" content="Custom websites and unique Tools AI built fast, clean, and 100% yours.">
+  <meta property="og:image" content="1751942262639.webp">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Syauqi Azhar Danii | Full-Stack Web Developer &amp; WFA Digipreneur">
+  <meta name="twitter:description" content="Custom websites and unique Tools AI built fast, clean, and 100% yours.">
+  <meta name="twitter:image" content="1751942262639.webp">
+
+  <!-- Preconnect & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['class', '[data-theme="dark"]'],
+      theme: {
+        extend: {
+          colors: {
+            brand: { 500: '#10B981', 600: '#059669', 700: '#047857' }
+          },
+          fontFamily: {
+            sans: ['Inter', 'Plus Jakarta Sans', 'sans-serif'],
+            display: ['Big Shoulders Display', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- External Minified Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.min.css">
+
+  <!-- Firebase Config Adapter -->
+  <script src="firebase-config.js"></script>
+
+  <!-- Firebase Modular Web SDK v10 -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    if (window.isFirebaseConfigured()) {
+      const app = initializeApp(window.FIREBASE_CONFIG);
+      const db = getFirestore(app);
+      window.firebaseDb = db;
+      window.firebaseHelpers = { collection, getDocs };
+    }
+  </script>
+
+  <!-- External Minified Main Application & Tracker JS -->
+  <script defer src="assets/js/main.min.js"></script>
+
+  <!-- Structured Data (JSON-LD) for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Syauqi Azhar Danii",
+    "jobTitle": "Full-Stack Web Developer & WFA Digipreneur",
+    "url": "https://syauqi.dev",
+    "sameAs": [
+      "https://github.com/azhardanii",
+      "https://linkedin.com/in/azhardanii",
+      "https://www.instagram.com/uqiazhardanii/",
+      "https://www.threads.net/@uqiazhardanii"
+    ],
+    "knowsAbout": ["Web Development", "Tools AI", "Sekolah WFA", "React", "Next.js", "Webflow", "Python", "Supabase"],
+    "description": "Full-Stack Web Developer & WFA Digipreneur building modern websites and unique Tools AI tailored for your business."
+  }
+  </script>
+</head>
+
+<body class="font-sans antialiased text-base selection:bg-emerald-500 selection:text-white">
+
+  <!-- TOP READING SCROLL PROGRESS BAR -->
+  <div id="scrollProgress"></div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast"
+    class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-2xl border border-zinc-700/50 text-sm font-medium pointer-events-none">
+    <svg class="w-5 h-5 text-emerald-400 dark:text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor"
+      viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <span id="toastMsg">Action completed successfully!</span>
+  </div>
+
+  <!-- STREAMLINED ONE-LINER NAVBAR -->
+  <header
+    class="fixed top-0 left-0 right-0 z-40 backdrop-blur-md bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] border-b border-[var(--border-color)] transition-colors duration-300">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4 whitespace-nowrap">
+
+      <!-- Brand Logo -->
+      <a href="#top" class="flex items-center gap-2 group focus:outline-none flex-shrink-0" data-track-id="logo_click">
+        <span
+          class="font-mono text-lg sm:text-xl font-bold tracking-tight text-[var(--text-main)] group-hover:text-[var(--accent)] transition-colors">
+          UQI<span class="text-[var(--accent)]">\></span>
+        </span>
+        <span
+          class="hidden md:inline-flex px-2 py-0.5 text-[10px] font-mono tracking-widest uppercase rounded border border-[var(--border-color)] text-[var(--text-muted)] bg-[var(--bg-panel-alt)]">
+          WFA DIGIPRENEUR
+        </span>
+      </a>
+
+      <!-- Clean 1-Liner Desktop Navigation Links -->
+      <nav
+        class="hidden lg:flex items-center gap-6 font-mono text-xs font-semibold tracking-wider uppercase text-[var(--text-muted)] flex-shrink-0">
+        <a href="#about" class="hover:text-[var(--text-main)] transition-colors" data-track-id="nav_about"
+          data-t-en="About" data-t-id="Tentang">About</a>
+        <a href="#works" class="hover:text-[var(--text-main)] transition-colors" data-track-id="nav_works"
+          data-t-en="Projects" data-t-id="Proyek">Projects</a>
+        <a href="#certificates" class="hover:text-[var(--text-main)] transition-colors" data-track-id="nav_certs"
+          data-t-en="Certificates" data-t-id="Sertifikat">Certificates</a>
+        <a href="#workflow" class="hover:text-[var(--text-main)] transition-colors" data-track-id="nav_workflow"
+          data-t-en="Workflow" data-t-id="Cara Kerja">Workflow</a>
+        <a href="#stack" class="hover:text-[var(--text-main)] transition-colors" data-track-id="nav_stack"
+          data-t-en="Skills &amp; Tech" data-t-id="Keahlian">Skills &amp; Tech</a>
+        <a href="#vault" class="hover:text-[var(--text-main)] transition-colors" data-track-id="nav_vault"
+          data-t-en="Checklist" data-t-id="Checklist">Checklist</a>
+      </nav>
+
+      <!-- Compact Right Controls & Action Button -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+
+        <!-- Language Switcher -->
+        <button id="langToggle" data-track-id="lang_toggle" aria-label="Toggle Language"
+          class="px-2.5 py-1.5 font-mono text-xs font-semibold rounded-lg border border-[var(--border-color)] text-[var(--text-main)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all">
+          EN
+        </button>
+
+        <!-- Theme Switcher -->
+        <button id="themeToggle" data-track-id="theme_toggle" aria-label="Toggle Theme"
+          class="p-2 rounded-lg border border-[var(--border-color)] text-[var(--text-main)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all">
+          <svg id="iconSun" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 2v2m0 16v2m-10-10h2m16 0h2m-3.17-6.83l-1.42 1.42m-11.42 11.42l-1.42 1.42m0-14.26l1.42 1.42m11.42 11.42l1.42 1.42" />
+          </svg>
+          <svg id="iconMoon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+          </svg>
+        </button>
+
+        <!-- CTA Call Button -->
+        <a href="#contact" data-track-id="nav_book_call"
+          class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 font-mono text-xs font-bold uppercase tracking-wider rounded-lg bg-[var(--accent)] text-[var(--accent-ink)] hover:opacity-90 transition-all shadow-sm">
+          <span data-t-en="Book Call" data-t-id="Konsultasi">Book Call</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+
+        <!-- Mobile Drawer Hamburger -->
+        <button id="menuToggle" data-track-id="mobile_menu_toggle" aria-label="Toggle Menu"
+          class="lg:hidden p-2 rounded-lg border border-[var(--border-color)] text-[var(--text-main)]">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu"
+      class="hidden lg:hidden border-b border-[var(--border-color)] bg-[var(--bg-panel)] px-6 py-5 flex-col gap-4">
+      <a href="#about" data-track-id="mobile_nav_about"
+        class="font-mono text-sm uppercase text-[var(--text-muted)] hover:text-[var(--text-main)] py-1"
+        data-t-en="About" data-t-id="Tentang">About</a>
+      <a href="#works" data-track-id="mobile_nav_works"
+        class="font-mono text-sm uppercase text-[var(--text-muted)] hover:text-[var(--text-main)] py-1"
+        data-t-en="Projects" data-t-id="Proyek">Projects</a>
+      <a href="#certificates" data-track-id="mobile_nav_certs"
+        class="font-mono text-sm uppercase text-[var(--text-muted)] hover:text-[var(--text-main)] py-1"
+        data-t-en="Certificates" data-t-id="Sertifikat">Certificates</a>
+      <a href="#workflow" data-track-id="mobile_nav_workflow"
+        class="font-mono text-sm uppercase text-[var(--text-muted)] hover:text-[var(--text-main)] py-1"
+        data-t-en="Workflow" data-t-id="Cara Kerja">Workflow</a>
+      <a href="#stack" data-track-id="mobile_nav_stack"
+        class="font-mono text-sm uppercase text-[var(--text-muted)] hover:text-[var(--text-main)] py-1"
+        data-t-en="Skills &amp; Tech" data-t-id="Keahlian">Skills &amp; Tech</a>
+      <a href="#vault" class="hover:text-[var(--text-main)] transition-colors" data-track-id="nav_vault"
+        data-t-en="Checklist" data-t-id="Checklist">Checklist</a>
+      <a href="#contact" data-track-id="mobile_nav_contact"
+        class="inline-flex items-center justify-center py-2.5 font-mono text-xs font-bold uppercase rounded-lg bg-[var(--accent)] text-[var(--accent-ink)]"
+        data-t-en="Book a Call" data-t-id="Konsultasi Proyek">Book a Call</a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT AREA -->
+  <main id="top" class="pt-16 sm:pt-20">
+
+    <!-- 1. HERO SECTION (SPACIOUS & ELEGANT DESKTOP LAYOUT) -->
+    <section
+      class="relative min-h-[85vh] flex flex-col justify-center py-12 sm:py-20 bg-grid-dots overflow-hidden border-b border-[var(--border-color)]">
+      <div
+        class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[400px] bg-emerald-500/10 dark:bg-emerald-500/5 blur-[130px] rounded-full pointer-events-none">
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+          <!-- Hero Main Copy Left (Expanded width for comfortable, spacious layout) -->
+          <div class="lg:col-span-7 xl:col-span-7">
+            <!-- Live Availability Pill Badge -->
+            <div
+              class="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-2xl sm:rounded-full border border-[var(--border-color)] bg-[var(--bg-panel)] mb-6 shadow-sm font-mono text-xs leading-tight">
+              <div class="flex items-center gap-2 flex-shrink-0">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-dot flex-shrink-0"></span>
+                <span class="font-semibold uppercase tracking-wider text-[var(--text-main)] text-[11px] sm:text-xs"
+                  data-t-en="[OPEN FOR FREELANCE &amp; WEB PROJECTS]"
+                  data-t-id="[TERSEDIA UNTUK FREELANCE &amp; PROYEK WEB]">
+                  [TERSEDIA UNTUK FREELANCE &amp; PROYEK WEB]
+                </span>
+              </div>
+              <span class="hidden sm:inline text-xs text-[var(--border-color)]">|</span>
+              <span class="text-[11px] sm:text-xs text-[var(--text-muted)] leading-tight"
+                data-t-en="Co-Founder @ Sekolah WFA" data-t-id="Co-Founder @ Sekolah WFA">Co-Founder @ Sekolah
+                WFA</span>
+            </div>
+
+            <!-- ELEGANT & BALANCED HERO HEADLINE (BREATHABLE SPACING & WRAP) -->
+            <h1
+              class="font-display font-black text-3xl sm:text-5xl lg:text-6xl xl:text-7xl uppercase tracking-tight leading-[0.96] text-[var(--text-main)] mb-6"
+              data-t-en="YOUR OWN WEBSITES &amp; TOOLS AI.<br><span class='text-[var(--accent)]'>BUILT UNIQUE. DONE FAST.</span>"
+              data-t-id="BANTU BIKININ WEBSITE &amp; TOOLS AI.<br><span class='text-[var(--accent)]'>CEPAT. RAPI. TERIMA BERES.</span>">
+              YOUR OWN WEBSITES &amp; TOOLS AI.<br>
+              <span class="text-[var(--accent)]">BUILT UNIQUE. DONE FAST.</span>
+            </h1>
+
+            <p class="text-base sm:text-lg text-[var(--text-muted)] max-w-2xl font-normal leading-relaxed mb-8"
+              data-t-en="I help creators, brands, and business owners build modern websites and unique AI tools tailored specifically for your goals."
+              data-t-id="Aku bantu membuat website modern dan Tools AI unik milik kamu sendiri untuk menghemat waktu kerja dan meningkatkan bisnis kamu.">
+              I help creators, brands, and business owners build modern websites and unique AI tools tailored
+              specifically for your goals.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-3 mb-10">
+              <a href="#works" data-track-id="hero_cta_cases"
+                class="px-6 py-3.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider bg-[var(--accent)] text-[var(--accent-ink)] hover:bg-[var(--accent-hover)] transition-all shadow-md hover:-translate-y-0.5 flex items-center gap-2">
+                <span data-t-en="See My Work" data-t-id="Lihat Hasil Kerja">See My Work</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </a>
+
+              <a href="#contact" data-track-id="hero_cta_book"
+                class="px-6 py-3.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider border border-[var(--border-color)] bg-[var(--bg-panel)] text-[var(--text-main)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                <span data-t-en="Book a Project Call" data-t-id="Konsultasi Gratis">Book a Project Call</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </a>
+            </div>
+
+            <!-- TRUST BADGES (BALANCED 2x2 GRID ON MOBILE, FLEX ON DESKTOP) -->
+            <div
+              class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-3 sm:gap-6 pt-5 border-t border-[var(--border-color)] font-mono text-xs text-[var(--text-muted)]">
+              <div class="flex items-center gap-1.5"><span class="text-emerald-500 font-bold">✓</span><span
+                  data-t-en="9+ Years Experience" data-t-id="Pengalaman 9+ Tahun">9+ Years Experience</span></div>
+              <div class="flex items-center gap-1.5"><span class="text-emerald-500 font-bold">✓</span><span
+                  data-t-en="100% Unique &amp; Tailored" data-t-id="100% Kustom &amp; Unik">100% Unique &amp;
+                  Tailored</span></div>
+              <div class="flex items-center gap-1.5"><span class="text-emerald-500 font-bold">✓</span><span
+                  data-t-en="Fast Delivery" data-t-id="Pengerjaan Cepat">Fast Delivery</span></div>
+              <div class="flex items-center gap-1.5"><span class="text-emerald-500 font-bold">✓</span><span
+                  data-t-en="Post-Launch Support" data-t-id="Support Pasca-Rilis">Post-Launch Support</span></div>
+            </div>
+          </div>
+
+          <!-- Hero Interactive Visual Ornament Right -->
+          <div class="lg:col-span-5 xl:col-span-5 relative">
+            <div
+              class="rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel)] p-6 shadow-xl relative overflow-hidden animate-float">
+              <div class="flex items-center justify-between pb-4 mb-4 border-b border-[var(--border-color)]">
+                <div class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                  <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                  <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                </div>
+                <span class="font-mono text-[11px] text-[var(--text-muted)]">INTERACTIVE PREVIEW</span>
+              </div>
+
+              <p class="font-mono text-xs text-[var(--text-muted)] uppercase mb-3"
+                data-t-en="Click to test live preview:" data-t-id="Klik untuk mencoba simulasi:">Click to test live
+                preview:</p>
+              <!-- bilingual labels for JS-driven ornament -->
+
+              <div class="flex flex-wrap gap-2 mb-6">
+                <button onclick="setHeroOrnament('web')" id="ornTabWeb" data-t-en="🌐 Web Apps" data-t-id="🌐 Web Apps"
+                  class="px-3 py-1.5 font-mono text-xs rounded-lg border border-[var(--accent)] bg-[var(--accent)] text-[var(--accent-ink)] font-semibold transition-all">🌐
+                  Web Apps</button>
+                <button onclick="setHeroOrnament('landing')" id="ornTabLanding" data-t-en="⚡ Landing Pages"
+                  data-t-id="⚡ Landing Pages"
+                  class="px-3 py-1.5 font-mono text-xs rounded-lg border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-muted)] hover:border-[var(--accent)] transition-all">⚡
+                  Landing Pages</button>
+                <button onclick="setHeroOrnament('ai')" id="ornTabAi" data-t-en="🤖 Tools AI" data-t-id="🤖 Tools AI"
+                  class="px-3 py-1.5 font-mono text-xs rounded-lg border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-muted)] hover:border-[var(--accent)] transition-all">🤖
+                  Tools AI</button>
+              </div>
+
+              <div id="heroOrnamentBox"
+                class="p-5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-panel-alt)] space-y-3">
+                <div class="flex justify-between items-center font-mono text-xs">
+                  <span class="font-bold text-[var(--text-main)]" id="ornTitle">Custom Web Application</span>
+                  <span class="text-emerald-500 font-bold" id="ornBadge">3-7 Days Delivery</span>
+                </div>
+                <p class="text-xs text-[var(--text-muted)] leading-relaxed" id="ornDesc"
+                  data-en-text="Tailored web apps built for your exact business requirements, complete with secure database, admin panel, and mobile responsiveness."
+                  data-id-text="Web app kustom sesuai kebutuhan bisnis kamu, dilengkapi database aman, panel admin, dan tampilan mobile responsif.">
+                  Tailored web apps built for your exact business requirements, complete with secure database, admin
+                  panel, and mobile responsiveness.</p>
+                <div class="pt-2 flex flex-wrap gap-1.5 font-mono text-[11px]" id="ornTags">
+                  <span
+                    class="px-2 py-0.5 rounded bg-[var(--bg-panel)] border border-[var(--border-color)] text-[var(--text-main)]">React</span>
+                  <span
+                    class="px-2 py-0.5 rounded bg-[var(--bg-panel)] border border-[var(--border-color)] text-[var(--text-main)]">Node.js</span>
+                  <span
+                    class="px-2 py-0.5 rounded bg-[var(--bg-panel)] border border-[var(--border-color)] text-[var(--text-main)]">PostgreSQL</span>
+                </div>
+              </div>
+
+              <div class="mt-4 text-center">
+                <span class="font-mono text-[11px] text-[var(--text-muted)]"
+                  data-t-en="💡 All solutions tailored to your budget &amp; timeline"
+                  data-t-id="💡 Semua solusi disesuaikan budget &amp; kebutuhan kamu">💡 All solutions tailored to your
+                  budget &amp; timeline</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE STRIP -->
+    <div class="py-4 bg-[var(--bg-panel-alt)] border-b border-[var(--border-color)] overflow-hidden">
+      <div class="animate-marquee font-mono text-xs uppercase font-semibold tracking-wider text-[var(--text-muted)]">
+        <span class="mx-6 flex items-center gap-6">WEBSITES <span class="text-[var(--accent)]">•</span> WEB APPS <span
+            class="text-[var(--accent)]">•</span> TOOLS AI <span class="text-[var(--accent)]">•</span> WEBFLOW <span
+            class="text-[var(--accent)]">•</span> REACT <span class="text-[var(--accent)]">•</span> NEXT.JS <span
+            class="text-[var(--accent)]">•</span> SUPABASE <span class="text-[var(--accent)]">•</span> N8N WORKFLOWS
+          <span class="text-[var(--accent)]">•</span> CLAUDE API <span class="text-[var(--accent)]">•</span> OPENAI
+          API</span>
+        <span class="mx-6 flex items-center gap-6">WEBSITES <span class="text-[var(--accent)]">•</span> WEB APPS <span
+            class="text-[var(--accent)]">•</span> TOOLS AI <span class="text-[var(--accent)]">•</span> WEBFLOW <span
+            class="text-[var(--accent)]">•</span> REACT <span class="text-[var(--accent)]">•</span> NEXT.JS <span
+            class="text-[var(--accent)]">•</span> SUPABASE <span class="text-[var(--accent)]">•</span> N8N WORKFLOWS
+          <span class="text-[var(--accent)]">•</span> CLAUDE API <span class="text-[var(--accent)]">•</span> OPENAI
+          API</span>
+      </div>
+    </div>
+
+    <!-- 2. ABOUT ME -->
+    <section id="about" class="py-20 border-b border-[var(--border-color)] bg-[var(--bg-panel)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+          <div class="lg:col-span-5 relative group">
+            <div
+              class="absolute -inset-3 rounded-3xl bg-[var(--bg-panel-alt)] border border-[var(--border-color)] -rotate-2 group-hover:rotate-0 transition-transform duration-500">
+            </div>
+            <div
+              class="relative rounded-2xl overflow-hidden border border-[var(--border-color)] bg-[var(--bg)] shadow-lg">
+              <img src="1751942262639.webp" alt="Syauqi Azhar Danii | Web Developer &amp; WFA Digipreneur"
+                class="w-full h-[440px] object-cover object-center filter grayscale contrast-105 group-hover:grayscale-0 transition-all duration-700">
+              <div
+                class="absolute bottom-4 left-4 right-4 p-4 rounded-xl backdrop-blur-md bg-[color-mix(in_srgb,var(--bg-panel)_88%,transparent)] border border-[var(--border-color)]">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h4 class="font-bold text-sm text-[var(--text-main)]">Syauqi Azhar Danii</h4>
+                    <p class="font-mono text-xs text-[var(--text-muted)]">Co-Founder @ Sekolah WFA</p>
+                  </div>
+                  <span
+                    class="px-2.5 py-1 text-[11px] font-mono font-bold uppercase rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">Fulltime
+                    Freelancer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <span class="eyebrow-tag mb-3" data-t-en="// ABOUT SYAUQI" data-t-id="// TENTANG SYAUQI">// ABOUT
+              SYAUQI</span>
+            <h2
+              class="font-display font-extrabold text-4xl sm:text-6xl uppercase tracking-tight leading-[0.95] text-[var(--text-main)] mb-6"
+              data-t-en="I help you build digital systems that run smoothly so you can <span class='text-[var(--accent)]'>focus on growing your business.</span>"
+              data-t-id="Aku yang urus teknis, kamu <span class='text-[var(--accent)]'>fokus berkembang.</span>">
+              I help you build digital systems that run smoothly so you can <span class="text-[var(--accent)]">focus on
+                growing your business.</span>
+            </h2>
+
+            <div class="space-y-4 text-base sm:text-lg text-[var(--text-muted)] leading-relaxed mb-8">
+              <p data-t-en="Hi! I am Syauqi Azhar Danii, a Full-Stack Web Developer &amp; WFA Digipreneur. As a full-time freelancer and Co-Founder of Sekolah WFA, I help digital creators, entrepreneurs, and companies launch modern websites and integrated Tools AI."
+                data-t-id="Halo! Aku Syauqi Azhar Danii, Full-Stack Web Developer &amp; WFA Digipreneur. Sebagai freelancer penuh waktu dan Co-Founder Sekolah WFA, aku membantu bisnis &amp; creator meluncurkan website modern dan integrasi Tools AI.">
+                Hi! I am Syauqi Azhar Danii, a Full-Stack Web Developer &amp; WFA Digipreneur. As a full-time freelancer
+                and Co-Founder of Sekolah WFA, I help digital creators, entrepreneurs, and companies launch modern
+                websites and integrated Tools AI.
+              </p>
+              <p data-t-en="Whether you need a sleek landing page built in days, a custom web app with database integration, or Tools AI to automate repetitive tasks, I handle everything clearly without confusing tech jargon."
+                data-t-id="Baik kamu membutuhkan landing page cepat, aplikasi web kustom dengan basis data, atau Tools AI untuk menghemat waktu kerja, semua aku kerjakan dengan rapi dan transparan.">
+                Whether you need a sleek landing page built in days, a custom web app with database integration, or
+                Tools AI to automate repetitive tasks, I handle everything clearly without confusing tech jargon.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[var(--border-color)]">
+              <div class="flex items-start gap-3">
+                <div
+                  class="w-5 h-5 rounded-md bg-emerald-500/10 text-[var(--accent)] flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">
+                  ✓</div>
+                <div>
+                  <h4 class="font-semibold text-sm text-[var(--text-main)]" data-t-en="No Technical Jargon"
+                    data-t-id="Tanpa Bahasa Rumit">No Technical Jargon</h4>
+                  <p class="text-xs text-[var(--text-muted)]" data-t-en="Clear updates &amp; easy communication."
+                    data-t-id="Komunikasi jelas &amp; mudah dipahami.">Clear updates &amp; easy communication.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div
+                  class="w-5 h-5 rounded-md bg-emerald-500/10 text-[var(--accent)] flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">
+                  ✓</div>
+                <div>
+                  <h4 class="font-semibold text-sm text-[var(--text-main)]" data-t-en="Full Ownership"
+                    data-t-id="Full Akses Akun">Full Ownership</h4>
+                  <p class="text-xs text-[var(--text-muted)]" data-t-en="You own 100% of code, files &amp; accounts."
+                    data-t-id="Kamu memegang 100% akun &amp; file.">Kamu memegang 100% akun &amp; file.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TRACK RECORD & DIFFERENTIATORS -->
+    <section id="impact" class="py-24 border-b border-[var(--border-color)] bg-[var(--bg)] overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+          <div>
+            <span class="eyebrow-tag mb-3" data-t-en="// TRACK RECORD" data-t-id="// REKAM JEJAK">// TRACK RECORD</span>
+            <h2
+              class="font-display font-black text-5xl sm:text-7xl xl:text-[5.5rem] uppercase tracking-tight text-[var(--text-main)] leading-[0.88]"
+              data-t-en="WHAT I'VE<br><span class='text-[var(--accent)]'>DELIVERED.</span>"
+              data-t-id="APA YANG<br><span class='text-[var(--accent)]'>SUDAH DIBANGUN.</span>">
+              WHAT I'VE<br><span class="text-[var(--accent)]">DELIVERED.</span>
+            </h2>
+          </div>
+          <p class="text-sm text-[var(--text-muted)] max-w-xs font-mono leading-relaxed"
+            data-t-en="Real projects. Real clients.<br/> Proof, not promises."
+            data-t-id="Proyek nyata. Klien asli.<br/> Bukti, bukan janji.">
+            Real projects. Real clients.<br /> Proof, not promises.
+          </p>
+        </div>
+
+        <!-- Bento Grid: Stats + Cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+          <!-- Big Animated Stats -->
+          <div class="lg:col-span-4 flex flex-col gap-4">
+            <div
+              class="stat-reveal p-9 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel)] relative overflow-hidden hover:border-[var(--border-accent)] transition-all group">
+              <div
+                class="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-emerald-500/5 pointer-events-none group-hover:scale-125 transition-transform duration-700">
+              </div>
+              <span id="statProjectsCounter"
+                class="font-display font-black text-[5.5rem] sm:text-[7rem] text-[var(--accent)] leading-none tabular-nums"
+                data-counter="0" data-suffix="+">0+</span>
+              <p class="font-mono text-xs text-[var(--text-muted)] mt-1 uppercase tracking-widest"
+                data-t-en="Projects Delivered" data-t-id="Proyek Selesai">Projects Delivered</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div
+                class="stat-reveal p-7 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel)] hover:border-[var(--border-accent)] transition-all">
+                <span id="statYearsCounter"
+                  class="font-display font-black text-5xl text-[var(--accent)] leading-none tabular-nums"
+                  data-counter="9" data-suffix="+">9+</span>
+                <p class="font-mono text-[11px] text-[var(--text-muted)] mt-2 uppercase tracking-wider"
+                  data-t-en="Years Active" data-t-id="Tahun Aktif">Years Active</p>
+              </div>
+              <div
+                class="stat-reveal p-7 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel)] hover:border-[var(--border-accent)] transition-all">
+                <span id="statCertsCounter"
+                  class="font-display font-black text-5xl text-[var(--accent)] leading-none tabular-nums"
+                  data-counter="0" data-suffix="+">0+</span>
+                <p class="font-mono text-[11px] text-[var(--text-muted)] mt-2 uppercase tracking-wider"
+                  data-t-en="Verified Certs" data-t-id="Sertifikasi Resmi">Verified Certs</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Differentiator Feature Cards -->
+          <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div
+              class="feat-reveal p-7 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel)] space-y-3 hover:border-[var(--border-accent)] transition-all group"
+              style="transition-delay:0ms">
+              <div
+                class="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center text-xl flex-shrink-0">🔒
+              </div>
+              <h3 class="font-display font-bold text-2xl uppercase text-[var(--text-main)]" data-t-en="Zero Lock-In"
+                data-t-id="Tanpa Ketergantungan">Zero Lock-In</h3>
+              <p class="text-xs text-[var(--text-muted)] leading-relaxed"
+                data-t-en="Code, accounts, and files are 100% yours from day one. No recurring fees to me, ever."
+                data-t-id="Kode, akun, dan file 100% milik kamu dari hari pertama. Tanpa biaya berulang ke aku.">Code,
+                accounts, and files are 100% yours from day one. No recurring fees to me, ever.</p>
+            </div>
+            <div
+              class="feat-reveal p-7 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel)] space-y-3 hover:border-[var(--border-accent)] transition-all group"
+              style="transition-delay:80ms">
+              <div
+                class="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center text-xl flex-shrink-0">⚡
+              </div>
+              <h3 class="font-display font-bold text-2xl uppercase text-[var(--text-main)]" data-t-en="Deadline is Law"
+                data-t-id="Deadline Itu Janji">Deadline is Law</h3>
+              <p class="text-xs text-[var(--text-muted)] leading-relaxed"
+                data-t-en="Most projects shipped in 2-14 days. Clear milestones, daily updates, zero vague timelines."
+                data-t-id="Kebanyakan proyek selesai dalam 2-14 hari. Milestone jelas, update harian, tanpa timeline abu-abu.">
+                Most projects shipped in 2-14 days. Clear milestones, daily updates, zero vague timelines.</p>
+            </div>
+            <div
+              class="feat-reveal p-7 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel)] space-y-3 hover:border-[var(--border-accent)] transition-all group"
+              style="transition-delay:160ms">
+              <div
+                class="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center text-xl flex-shrink-0">🤖
+              </div>
+              <h3 class="font-display font-bold text-2xl uppercase text-[var(--text-main)]" data-t-en="AI-Native Build"
+                data-t-id="Dibangun dengan AI">AI-Native Build</h3>
+              <p class="text-xs text-[var(--text-muted)] leading-relaxed"
+                data-t-en="Not just ChatGPT widgets. Real AI models integrated to automate workflows and save hours every week."
+                data-t-id="Bukan sekadar widget ChatGPT. Model AI sungguhan yang mengotomasi workflow dan hemat berjam-jam setiap minggu.">
+                Not just ChatGPT widgets. Real AI models integrated to automate workflows and save hours every week.</p>
+            </div>
+            <div
+              class="feat-reveal p-7 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel)] space-y-3 hover:border-[var(--border-accent)] transition-all group"
+              style="transition-delay:240ms">
+              <div
+                class="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center text-xl flex-shrink-0">💬
+              </div>
+              <h3 class="font-display font-bold text-2xl uppercase text-[var(--text-main)]"
+                data-t-en="Human Communication" data-t-id="Komunikasi Manusiawi">Human Communication</h3>
+              <p class="text-xs text-[var(--text-muted)] leading-relaxed"
+                data-t-en="No tech jargon. No ghosting. You always know exactly where your project stands."
+                data-t-id="Tanpa bahasa teknis. Tanpa ghosting. Kamu selalu tahu persis posisi proyekmu.">No tech
+                confuse. No ghosting. You always know exactly where your project stands.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. FEATURED WORKS -->
+    <section id="works" class="py-20 border-b border-[var(--border-color)] bg-[var(--bg)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          class="sticky top-16 sm:top-20 z-30 py-4 mb-8 backdrop-blur-md bg-[color-mix(in_srgb,var(--bg)_92%,transparent)] border-b border-[var(--border-color)] flex flex-col md:flex-row md:items-end justify-between gap-6 transition-all duration-300">
+          <div>
+            <span class="eyebrow-tag mb-2" data-t-en="// PORTFOLIO &amp; PROJECTS"
+              data-t-id="// PORTOFOLIO &amp; PROYEK">// PORTFOLIO &amp; PROJECTS</span>
+            <h2 class="font-display font-black text-4xl sm:text-6xl uppercase tracking-tight text-[var(--text-main)]"
+              data-t-en="FEATURED WORKS" data-t-id="PROYEK UNGGULAN">FEATURED WORKS</h2>
+            <p class="text-xs sm:text-sm text-[var(--text-muted)] max-w-xl mt-1.5"
+              data-t-en="Real projects built to solve client challenges, save time, and boost sales."
+              data-t-id="Proyek nyata yang dibangun untuk menyelesaikan tantangan bisnis, menghemat waktu, dan meningkatkan penjualan.">
+              Real projects built to solve client challenges, save time, and boost sales.
+            </p>
+          </div>
+
+          <div id="filterBar" class="flex items-center gap-2 overflow-x-auto pb-1 max-w-full scrollbar-hide">
+            <button data-filter="all" data-track-id="filter_all"
+              class="filter-btn flex-shrink-0 px-4 py-2 rounded-lg font-mono text-xs uppercase font-semibold border border-[var(--accent)] bg-[var(--accent)] text-[var(--accent-ink)] transition-all"><span
+                data-t-en="All Works" data-t-id="Semua">All Works</span></button>
+            <button data-filter="website" data-track-id="filter_website"
+              class="filter-btn flex-shrink-0 px-4 py-2 rounded-lg font-mono text-xs uppercase font-semibold border border-[var(--border-color)] bg-[var(--bg-panel)] text-[var(--text-muted)] hover:border-[var(--accent)] transition-all"><span
+                data-t-en="Websites" data-t-id="Websites">Websites</span></button>
+            <button data-filter="saas" data-track-id="filter_webapps"
+              class="filter-btn flex-shrink-0 px-4 py-2 rounded-lg font-mono text-xs uppercase font-semibold border border-[var(--border-color)] bg-[var(--bg-panel)] text-[var(--text-muted)] hover:border-[var(--accent)] transition-all"><span
+                data-t-en="Web App" data-t-id="Web App">Web App</span></button>
+            <button data-filter="automation" data-track-id="filter_ai"
+              class="filter-btn flex-shrink-0 px-4 py-2 rounded-lg font-mono text-xs uppercase font-semibold border border-[var(--border-color)] bg-[var(--bg-panel)] text-[var(--text-muted)] hover:border-[var(--accent)] transition-all"><span
+                data-t-en="Tools AI" data-t-id="Tools AI">Tools AI</span></button>
+          </div>
+        </div>
+
+        <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8"></div>
+      </div>
+    </section>
+
+    <!-- PROJECT DETAIL POPUP MODAL -->
+    <div id="projectDetailModal" onclick="if(event.target===this)closeProjectDetailModal()"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+      <div
+        class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto scrollbar-hide rounded-3xl border border-[var(--border-color)] bg-[var(--bg-panel)] p-6 sm:p-8 shadow-2xl space-y-6">
+        <!-- Close Button -->
+        <button onclick="closeProjectDetailModal()"
+          class="absolute top-5 right-5 w-9 h-9 rounded-full bg-[var(--bg-panel-alt)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-main)] flex items-center justify-center font-bold transition-all z-10">✕</button>
+
+        <!-- Image -->
+        <div id="modalProjImgContainer"
+          class="w-full h-56 sm:h-72 rounded-2xl border border-[var(--border-color)] overflow-hidden hidden">
+          <img id="modalProjImg" src="" alt="Project Image" class="w-full h-full object-cover">
+        </div>
+
+        <!-- Category & Badge -->
+        <div class="flex items-center justify-between font-mono text-xs">
+          <span id="modalProjBadge"
+            class="px-3 py-1 rounded-md bg-emerald-500/10 text-[var(--accent)] border border-emerald-500/20 font-bold uppercase"></span>
+          <span id="modalProjCategory"
+            class="px-2.5 py-0.5 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-muted)] font-semibold uppercase"></span>
+        </div>
+
+        <!-- Title & Subtitle -->
+        <div>
+          <h3 id="modalProjTitle"
+            class="font-display font-black text-3xl sm:text-4xl uppercase text-[var(--text-main)] mb-1"></h3>
+          <p id="modalProjSubtitle" class="font-mono text-xs text-[var(--text-muted)]"></p>
+        </div>
+
+        <!-- Description -->
+        <div class="space-y-2">
+          <h4 class="font-mono text-xs uppercase tracking-wider text-[var(--accent)] font-bold"
+            data-t-en="// OVERVIEW &amp; SOLUTION" data-t-id="// RINGKASAN &amp; SOLUSI">// OVERVIEW &amp; SOLUTION</h4>
+          <p id="modalProjDesc" class="text-sm text-[var(--text-muted)] leading-relaxed whitespace-pre-line"></p>
+        </div>
+
+        <!-- Tech Stack Tags -->
+        <div class="space-y-2">
+          <h4 class="font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] font-bold"
+            data-t-en="// TECH STACK &amp; INTEGRATIONS" data-t-id="// TEKNOLOGI &amp; INTEGRASI">// TECH STACK &amp;
+            INTEGRATIONS</h4>
+          <div id="modalProjTags" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- Action Bar -->
+        <div
+          class="pt-4 border-t border-[var(--border-color)] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs">
+          <div class="flex items-center gap-2 text-emerald-500 font-semibold">
+            <span>⚡</span> <span id="modalProjMetric"></span>
+          </div>
+          <a id="modalProjDemoBtn" href="#" target="_blank"
+            class="w-full sm:w-auto px-6 py-3 font-mono text-xs font-bold uppercase rounded-xl bg-[var(--accent)] text-[var(--accent-ink)] hover:opacity-90 transition-all text-center flex items-center justify-center gap-2 shadow-lg">
+            <span data-t-en="Visit Live Project" data-t-id="Kunjungi Proyek">Visit Live Project</span> →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. CERTIFICATES -->
+    <section id="certificates" class="py-20 border-b border-[var(--border-color)] bg-[var(--bg-panel)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <span class="eyebrow-tag mb-2" data-t-en="// ACCREDITATION &amp; CERTIFICATES"
+            data-t-id="// SERTIFIKASI &amp; LISENSI">// ACCREDITATION &amp; CERTIFICATES</span>
+          <h2 class="font-display font-black text-4xl sm:text-6xl uppercase tracking-tight text-[var(--text-main)]"
+            data-t-en="VERIFIED CERTIFICATES &amp; SKILLS" data-t-id="SERTIFIKAT &amp; LISENSI RESMI">VERIFIED
+            CERTIFICATES &amp; SKILLS</h2>
+          <p class="text-base text-[var(--text-muted)] max-w-xl mt-2"
+            data-t-en="Official certifications, web engineering courses, and technical accreditations."
+            data-t-id="Sertifikasi resmi, pelatihan web engineering, dan akreditasi keahlian teknis.">Official
+            certifications, web engineering courses, and technical accreditations.</p>
+        </div>
+
+        <div id="certsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <!-- 5. WORKFLOW & ESTIMATOR -->
+    <section id="workflow" class="py-20 border-b border-[var(--border-color)] bg-[var(--bg)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="eyebrow-tag mb-2" data-t-en="// SIMPLE PROCESS" data-t-id="// CARA KERJA SISTEMIS">// SIMPLE
+            PROCESS</span>
+          <h2 class="font-display font-black text-4xl sm:text-6xl uppercase tracking-tight text-[var(--text-main)]"
+            data-t-en="HOW WE WORK TOGETHER IN 3 SIMPLE STEPS" data-t-id="3 LANGKAH MUDAH KERJA SAMA">HOW WE WORK
+            TOGETHER IN 3 SIMPLE STEPS</h2>
+          <p class="text-base text-[var(--text-muted)] mt-2"
+            data-t-en="No complicated jargon or hidden costs. From your initial idea to live launch, everything is transparent."
+            data-t-id="Tanpa bahasa teknis rumit dan tanpa biaya tersembunyi. Dari ide awal sampai live, semua transparan.">
+            No complicated jargon or hidden costs. From your initial idea to live launch, everything is transparent.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          <div class="p-8 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel)] space-y-4">
+            <span
+              class="w-10 h-10 rounded-xl bg-emerald-500/10 text-[var(--accent)] font-mono font-bold flex items-center justify-center text-sm">01</span>
+            <h3 class="font-display font-bold text-2xl uppercase text-[var(--text-main)]" data-t-en="1. Discovery Call"
+              data-t-id="1. Diskusi Kebutuhan">1. Discovery Call</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed"
+              data-t-en="We chat about your project goals, desired style, features, and timeline. I help you pick the best tech stack."
+              data-t-id="Kita ngobrol singkat seputar kebutuhan bisnis kamu, target tampilan, fitur, dan deadline pengerjaan.">
+              We chat about your project goals, desired style, features, and timeline. I help you pick the best tech
+              stack.</p>
+          </div>
+
+          <div class="p-8 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel)] space-y-4">
+            <span
+              class="w-10 h-10 rounded-xl bg-emerald-500/10 text-[var(--accent)] font-mono font-bold flex items-center justify-center text-sm">02</span>
+            <h3 class="font-display font-bold text-2xl uppercase text-[var(--text-main)]"
+              data-t-en="2. Build &amp; Integrate" data-t-id="2. Pengerjaan &amp; Integrasi">2. Build &amp; Integrasi
+            </h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed"
+              data-t-en="I design and code your website, set up mobile optimization, and integrate Tools AI with daily progress updates."
+              data-t-id="Aku mendesain &amp; ngoding website kamu, merapikan tampilan mobile, serta mengintegrasikan Tools AI.">
+              I design and code your website, set up mobile optimization, and integrate Tools AI with daily progress
+              updates.</p>
+          </div>
+
+          <div class="p-8 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel)] space-y-4">
+            <span
+              class="w-10 h-10 rounded-xl bg-emerald-500/10 text-[var(--accent)] font-mono font-bold flex items-center justify-center text-sm">03</span>
+            <h3 class="font-display font-bold text-2xl uppercase text-[var(--text-main)]"
+              data-t-en="3. Handover &amp; Launch" data-t-id="3. Serah Terima &amp; Live">3. Handover &amp; Launch</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed"
+              data-t-en="Your site goes live! You get 100% access, clear video walkthroughs, and post-launch support."
+              data-t-id="Website resmi live! Kamu memegang 100% akses akun, video panduan cara pakai, dan dukungan pasca rilis.">
+              Your site goes live! You get 100% access, clear video walkthroughs, and post-launch support.</p>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-[var(--border-color)] bg-[var(--bg-panel-alt)] p-8 sm:p-10">
+          <div class="max-w-xl mb-6">
+            <h3 class="font-display font-bold text-2xl uppercase text-[var(--text-main)]"
+              data-t-en="Estimate Your Project Timeline &amp; Delivery"
+              data-t-id="Simulasi Waktu &amp; Hasil Pengerjaan">Estimate Your Project Timeline &amp; Delivery</h3>
+            <p class="text-xs text-[var(--text-muted)] font-mono mt-1"
+              data-t-en="Select a project type to see typical turnaround times:"
+              data-t-id="Pilih jenis proyek untuk melihat estimasi pengerjaan:">Select a project type to see typical
+              turnaround times:</p>
+          </div>
+
+          <div class="flex flex-wrap gap-2 mb-6">
+            <button onclick="setEstimator('landing')" id="estBtnLanding"
+              class="px-4 py-2 font-mono text-xs rounded-lg border border-[var(--accent)] bg-[var(--accent)] text-[var(--accent-ink)] font-bold transition-all">⚡
+              High-Speed Landing Page</button>
+            <button onclick="setEstimator('webapp')" id="estBtnApp"
+              class="px-4 py-2 font-mono text-xs rounded-lg border border-[var(--border-color)] bg-[var(--bg-panel)] text-[var(--text-muted)] hover:border-[var(--accent)] transition-all">🌐
+              Full Web Application</button>
+            <button onclick="setEstimator('automation')" id="estBtnAuto"
+              class="px-4 py-2 font-mono text-xs rounded-lg border border-[var(--border-color)] bg-[var(--bg-panel)] text-[var(--text-muted)] hover:border-[var(--accent)] transition-all">🤖
+              Tools AI Integration</button>
+          </div>
+
+          <div
+            class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[var(--border-color)] font-mono text-xs">
+            <div><span class="text-[var(--text-muted)] block uppercase">Estimated Turnaround:</span><strong
+                class="text-base text-[var(--accent)]" id="estTurnaround">3 to 5 Days</strong></div>
+            <div><span class="text-[var(--text-muted)] block uppercase">What's Included:</span><strong
+                class="text-sm text-[var(--text-main)]" id="estIncluded">Design, Fast Slicing &amp; Mobile
+                Responsive</strong></div>
+            <div><span class="text-[var(--text-muted)] block uppercase">Guarantee:</span><strong
+                class="text-sm text-[var(--text-main)]">100% Access &amp; Support</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. TECH STACK -->
+    <section id="stack" class="py-20 border-b border-[var(--border-color)] bg-[var(--bg-panel)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <span class="eyebrow-tag mb-2" data-t-en="// SKILLS &amp; TOOLS" data-t-id="// KEAHLIAN &amp; TEKNOLOGI">//
+            SKILLS &amp; TOOLS</span>
+          <h2 class="font-display font-black text-4xl sm:text-6xl uppercase tracking-tight text-[var(--text-main)]"
+            data-t-en="FLEXIBLE TOOLS FOR YOUR EXACT NEEDS" data-t-id="ALAT FLEKSIBEL SESUAI KEBUTUHAN">FLEXIBLE TOOLS
+            FOR YOUR EXACT NEEDS</h2>
+          <p class="text-base text-[var(--text-muted)] max-w-xl mt-2"
+            data-t-en="I select the right tools based on your speed, budget, and scalability requirements."
+            data-t-id="Aku memilih teknologi yang tepat sesuai budget, tenggat waktu, dan kebutuhan skala kamu.">I
+            select the right tools based on your speed, budget, and scalability requirements.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] shadow-sm">
+            <span class="font-mono text-xs font-bold uppercase text-[var(--accent)] block mb-3">// WEBSITES &amp;
+              NO-CODE</span>
+            <p class="text-xs text-[var(--text-muted)] mb-4">Fast landing pages &amp; marketing sites built for rapid
+              launches.</p>
+            <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">Webflow</span>
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">Tailwind
+                CSS</span>
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">HTML5
+                / CSS3</span>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] shadow-sm">
+            <span class="font-mono text-xs font-bold uppercase text-[var(--accent)] block mb-3">// WEB
+              APPLICATIONS</span>
+            <p class="text-xs text-[var(--text-muted)] mb-4">Custom interactive portals, SaaS dashboards &amp; web apps.
+            </p>
+            <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">React</span>
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">Next.js</span>
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">TypeScript</span>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] shadow-sm">
+            <span class="font-mono text-xs font-bold uppercase text-[var(--accent)] block mb-3">// BACKEND &amp;
+              DATABASES</span>
+            <p class="text-xs text-[var(--text-muted)] mb-4">Secure user accounts, payments &amp; database storage.</p>
+            <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">Node.js</span>
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">Supabase</span>
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">PostgreSQL</span>
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">Python</span>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] shadow-sm">
+            <span class="font-mono text-xs font-bold uppercase text-[var(--accent)] block mb-3">// TOOLS AI</span>
+            <p class="text-xs text-[var(--text-muted)] mb-4">Smart AI models, automated workflows &amp; API
+              integrations.</p>
+            <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">Claude
+                3.5 API</span>
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">OpenAI
+                API</span>
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">n8n</span>
+              <span
+                class="px-2.5 py-1 rounded border border-[var(--border-color)] bg-[var(--bg-panel-alt)] text-[var(--text-main)]">Make</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. FREE CHECKLIST -->
+    <section id="vault" class="py-20 border-b border-[var(--border-color)] bg-[var(--bg)]">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          class="rounded-3xl border border-[var(--border-color)] bg-[var(--bg-panel-alt)] p-8 sm:p-12 relative overflow-hidden shadow-sm">
+          <div class="relative z-10 max-w-2xl">
+            <span class="eyebrow-tag mb-3" data-t-en="// FREE RESOURCE" data-t-id="// GRATIS">// FREE RESOURCE</span>
+            <h2
+              class="font-display font-black text-3xl sm:text-5xl uppercase tracking-tight text-[var(--text-main)] mb-4"
+              data-t-en="Free Website Performance &amp; Conversion Checklist"
+              data-t-id="Checklist Performa &amp; Konversi Website Gratis">Free Website Performance &amp; Conversion
+              Checklist</h2>
+            <p class="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed mb-8"
+              data-t-en="A simple 25-point PDF checklist to check if your website loads fast on mobile and turns visitors into clients."
+              data-t-id="Checklist PDF 25 poin sederhana untuk mengecek apakah website kamu cepat di HP dan mampu menghasilkan penjualan.">
+              A simple 25-point PDF checklist to check if your website loads fast on mobile and turns visitors into
+              clients.</p>
+
+            <form id="leadForm" class="flex flex-col sm:flex-row gap-3">
+              <input type="email" required placeholder="Enter your email address..."
+                class="flex-1 px-5 py-4 rounded-xl border border-[var(--border-color)] bg-[var(--bg-panel)] text-[var(--text-main)] placeholder-[var(--text-muted)] font-mono text-sm focus:outline-none focus:border-[var(--accent)] transition-colors">
+              <button type="submit" data-track-id="lead_submit_button"
+                class="px-7 py-4 rounded-xl font-mono text-sm font-bold uppercase tracking-wider bg-[var(--accent)] text-[var(--accent-ink)] hover:bg-[var(--accent-hover)] transition-all flex items-center justify-center gap-2 shadow-sm">
+                <span data-t-en="Get Free Checklist" data-t-id="Dapatkan Checklist">Get Free Checklist</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+              </button>
+            </form>
+            <p class="font-mono text-xs text-[var(--text-muted)] mt-3">🔒 No spam. Download link sent instantly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. FOOTER -->
+    <footer id="contact" class="pt-20 pb-12 bg-[var(--bg-panel)] border-t border-[var(--border-color)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-14">
+          <span class="eyebrow-tag mb-3" data-t-en="// LET'S WORK TOGETHER" data-t-id="// MARI BEKERJA SAMA">// LET'S
+            WORK TOGETHER</span>
+          <h2
+            class="font-display font-black text-5xl sm:text-7xl lg:text-8xl uppercase tracking-tight text-[var(--text-main)] max-w-5xl leading-[0.9]"
+            data-t-en="HAVE A PROJECT IN MIND? LET'S BUILD IT FAST."
+            data-t-id="PUNYA IDE WEBSITES ATAU SISTEM? MARI KITA BANGUN.">HAVE A PROJECT IN MIND? LET'S BUILD IT
+            FAST<span class="text-[var(--accent)]">.</span></h2>
+          <p class="text-base sm:text-lg text-[var(--text-muted)] max-w-3xl mt-4"
+            data-t-en="Available for fulltime freelance contracts, custom websites, and Tools AI integration."
+            data-t-id="Menerima proyek freelance penuh waktu, pembuatan website, dan integrasi Tools AI.">Available for
+            fulltime freelance contracts, custom websites, and Tools AI integration.</p>
+        </div>
+
+        <!-- Contact Cards: Email full-width top row, then 2+3 grid for socials -->
+        <div class="space-y-4 mb-16">
+
+          <!-- Row 1: Email (full width, featured) -->
+          <button onclick="copyEmail('syauqiazhardanii@gmail.com')" data-track-id="contact_email_click"
+            class="w-full group relative overflow-hidden p-7 sm:p-8 rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] text-left transition-all duration-300 hover:border-emerald-500/50 hover:bg-[var(--bg-panel)] hover:-translate-y-0.5 shadow-sm hover:shadow-lg">
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl">
+            </div>
+            <div class="relative flex items-center justify-between gap-4">
+              <div class="flex items-center gap-5">
+                <!-- Gmail SVG Icon -->
+                <div
+                  class="w-12 h-12 rounded-xl bg-[var(--bg-panel-alt)] border border-[var(--border-color)] flex items-center justify-center flex-shrink-0 group-hover:border-emerald-500/30 transition-colors">
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M2 6C2 4.9 2.9 4 4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6Z"
+                      stroke="currentColor" stroke-width="1.5" class="text-[var(--text-muted)]" />
+                    <path d="M2 6L12 13L22 6" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="font-mono text-[11px] uppercase tracking-widest text-[var(--text-muted)] mb-0.5">Direct
+                    Email</p>
+                  <p
+                    class="font-mono text-base font-bold text-[var(--text-main)] group-hover:text-[var(--accent)] transition-colors">
+                    syauqiazhardanii@gmail.com</p>
+                </div>
+              </div>
+              <span
+                class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-xs font-bold uppercase border border-[var(--border-color)] text-[var(--text-muted)] group-hover:border-[var(--accent)] group-hover:text-[var(--accent)] transition-all flex-shrink-0">
+                Click to Copy 📋
+              </span>
+            </div>
+          </button>
+
+          <!-- Row 2: Instagram + Threads -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/uqiazhardanii/" target="_blank" data-track-id="contact_instagram_click"
+              class="group relative overflow-hidden p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] text-left transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+              style="--hover-brand:#E1306C">
+              <div
+                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
+                style="background:linear-gradient(135deg,rgba(225,48,108,0.07) 0%,rgba(193,53,132,0.04) 100%)"></div>
+              <div class="relative">
+                <div class="flex items-start justify-between mb-4">
+                  <div
+                    class="w-11 h-11 rounded-xl bg-[var(--bg-panel-alt)] border border-[var(--border-color)] flex items-center justify-center group-hover:border-pink-500/40 transition-colors">
+                    <!-- Instagram SVG -->
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.8"
+                        class="text-[var(--text-muted)] group-hover:text-pink-500 transition-colors" />
+                      <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"
+                        class="text-[var(--text-muted)] group-hover:text-pink-500 transition-colors" />
+                      <circle cx="17.5" cy="6.5" r="1" fill="currentColor"
+                        class="text-[var(--text-muted)] group-hover:text-pink-500 transition-colors" />
+                    </svg>
+                  </div>
+                  <svg
+                    class="w-4 h-4 text-[var(--text-muted)] group-hover:text-pink-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </div>
+                <p class="font-mono text-[11px] uppercase tracking-widest text-[var(--text-muted)] mb-1">Instagram</p>
+                <p
+                  class="font-bold text-lg text-[var(--text-main)] group-hover:text-pink-500 transition-colors leading-tight">
+                  @uqiazhardanii</p>
+                <p class="font-mono text-[11px] text-[var(--text-muted)] mt-3">Konten kreator & proyek harian</p>
+              </div>
+            </a>
+
+            <!-- Threads -->
+            <a href="https://www.threads.com/@uqiazhardanii" target="_blank" data-track-id="contact_threads_click"
+              class="group relative overflow-hidden p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] text-left transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+              <div
+                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
+                style="background:linear-gradient(135deg,rgba(0,0,0,0.04) 0%,rgba(100,100,100,0.03) 100%)"></div>
+              <div class="relative">
+                <div class="flex items-start justify-between mb-4">
+                  <div
+                    class="w-11 h-11 rounded-xl bg-[var(--bg-panel-alt)] border border-[var(--border-color)] flex items-center justify-center group-hover:border-[var(--text-main)]/30 transition-colors">
+                    <!-- Threads official "@" logo — Meta brand kit -->
+                    <svg class="w-5 h-5 text-[var(--text-muted)] group-hover:text-[var(--text-main)] transition-colors"
+                      viewBox="0 0 192 192" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3351 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.2328C81.6116 63.5383 90.6052 61.6848 97.2286 61.6848C97.3051 61.6848 97.3819 61.6848 97.4576 61.6855C105.707 61.7381 111.932 64.1366 115.961 68.814C118.893 72.2193 120.854 76.925 121.822 82.8638C114.495 81.6199 106.598 81.2372 98.1424 81.7212C73.3093 83.1469 57.5686 97.1958 58.6065 116.19C59.1308 125.394 63.578 133.256 71.0302 138.347C77.2639 142.588 85.2741 144.638 93.3395 144.19C104.316 143.588 112.937 139.231 118.972 131.228C123.655 125.018 126.57 116.983 127.797 106.816C133.547 110.204 137.831 114.764 140.274 120.429C144.449 130.193 144.695 145.991 132.028 158.678C120.942 169.764 107.664 174.432 88.0435 174.573C66.2903 174.415 49.7905 167.392 38.8673 153.697C28.6379 140.888 23.3803 122.59 23.2371 100C23.3803 77.4099 28.6379 59.1119 38.8673 46.3026C49.7905 32.6077 66.2903 25.5847 88.0435 25.4265C109.964 25.5864 126.748 32.6397 138.066 46.4007L151.645 35.9768C137.056 18.5323 116.677 9.65681 88.0921 9.5C59.2584 9.65681 38.5079 18.6421 24.4806 35.975C11.9677 51.4977 5.53819 73.6494 5.33333 100C5.53819 126.351 11.9677 148.502 24.4806 163.025C38.5079 180.358 59.2584 189.343 88.0921 189.5C114.717 189.343 134.244 182.529 149.354 167.403C166.009 150.743 165.448 129.726 159.97 116.478C155.898 106.698 148.233 98.5354 141.537 88.9883ZM98.4405 128.42C90.5521 128.866 83.3398 126.771 78.7066 122.419C74.7707 118.706 73.0027 113.469 73.2332 107.476C73.5043 100.365 78.6274 94.3464 87.2479 90.9272C92.7543 88.7536 99.0891 87.9429 105.956 88.5145C107.908 88.6766 109.812 88.9276 111.648 89.2662C111.034 110.919 108.374 127.874 98.4405 128.42Z" />
+                    </svg>
+
+                  </div>
+                  <svg
+                    class="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--text-main)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </div>
+                <p class="font-mono text-[11px] uppercase tracking-widest text-[var(--text-muted)] mb-1">Threads</p>
+                <p class="font-bold text-lg text-[var(--text-main)] transition-colors leading-tight">@uqiazhardanii</p>
+                <p class="font-mono text-[11px] text-[var(--text-muted)] mt-3">Pikiran, opini & obrolan lepas</p>
+              </div>
+            </a>
+
+          </div>
+
+          <!-- Row 3: YouTube + LinkedIn + GitHub -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+            <!-- YouTube -->
+            <a href="https://youtube.com/@azhardanii" target="_blank" data-track-id="contact_youtube_click"
+              class="group relative overflow-hidden p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] text-left transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+              <div
+                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
+                style="background:linear-gradient(135deg,rgba(255,0,0,0.06) 0%,rgba(200,0,0,0.03) 100%)"></div>
+              <div class="relative">
+                <div class="flex items-start justify-between mb-4">
+                  <div
+                    class="w-11 h-11 rounded-xl bg-[var(--bg-panel-alt)] border border-[var(--border-color)] flex items-center justify-center group-hover:border-red-500/40 transition-colors">
+                    <!-- YouTube SVG -->
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path class="text-[var(--text-muted)] group-hover:text-red-500 transition-colors"
+                        fill="currentColor"
+                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                    </svg>
+                  </div>
+                  <svg
+                    class="w-4 h-4 text-[var(--text-muted)] group-hover:text-red-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </div>
+                <p class="font-mono text-[11px] uppercase tracking-widest text-[var(--text-muted)] mb-1">YouTube</p>
+                <p
+                  class="font-bold text-base text-[var(--text-main)] group-hover:text-red-500 transition-colors leading-tight">
+                  @azhardanii</p>
+                <p class="font-mono text-[11px] text-[var(--text-muted)] mt-3">Tutorial & behind the scenes</p>
+              </div>
+            </a>
+
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com/in/azhardanii" target="_blank" data-track-id="contact_linkedin_click"
+              class="group relative overflow-hidden p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] text-left transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+              <div
+                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
+                style="background:linear-gradient(135deg,rgba(10,102,194,0.07) 0%,rgba(10,102,194,0.03) 100%)"></div>
+              <div class="relative">
+                <div class="flex items-start justify-between mb-4">
+                  <div
+                    class="w-11 h-11 rounded-xl bg-[var(--bg-panel-alt)] border border-[var(--border-color)] flex items-center justify-center group-hover:border-blue-500/40 transition-colors">
+                    <!-- LinkedIn SVG -->
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path class="text-[var(--text-muted)] group-hover:text-blue-500 transition-colors"
+                        fill="currentColor"
+                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                    </svg>
+                  </div>
+                  <svg
+                    class="w-4 h-4 text-[var(--text-muted)] group-hover:text-blue-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </div>
+                <p class="font-mono text-[11px] uppercase tracking-widest text-[var(--text-muted)] mb-1">LinkedIn</p>
+                <p
+                  class="font-bold text-base text-[var(--text-main)] group-hover:text-blue-500 transition-colors leading-tight">
+                  azhardanii</p>
+                <p class="font-mono text-[11px] text-[var(--text-muted)] mt-3">Profil profesional & kolaborasi</p>
+              </div>
+            </a>
+
+            <!-- GitHub -->
+            <a href="https://github.com/azhardanii" target="_blank" data-track-id="contact_github_click"
+              class="group relative overflow-hidden p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] text-left transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+              <div
+                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
+                style="background:linear-gradient(135deg,rgba(110,118,129,0.07) 0%,rgba(110,118,129,0.03) 100%)"></div>
+              <div class="relative">
+                <div class="flex items-start justify-between mb-4">
+                  <div
+                    class="w-11 h-11 rounded-xl bg-[var(--bg-panel-alt)] border border-[var(--border-color)] flex items-center justify-center group-hover:border-[var(--text-muted)]/40 transition-colors">
+                    <!-- GitHub SVG -->
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path class="text-[var(--text-muted)] group-hover:text-[var(--text-main)] transition-colors"
+                        fill="currentColor"
+                        d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                    </svg>
+                  </div>
+                  <svg
+                    class="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--text-main)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </div>
+                <p class="font-mono text-[11px] uppercase tracking-widest text-[var(--text-muted)] mb-1">GitHub</p>
+                <p class="font-bold text-base text-[var(--text-main)] transition-colors leading-tight">azhardanii</p>
+                <p class="font-mono text-[11px] text-[var(--text-muted)] mt-3">Source code & open projects</p>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <div
+          class="pt-8 border-t border-[var(--border-color)] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-[var(--text-muted)]">
+          <div class="flex items-center gap-2"><span
+              class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span><span>AVAILABLE FOR NEW PROJECTS</span></div>
+          <div><span>© 2026 Syauqi Azhar Danii | Co-Founder @ Sekolah WFA</span></div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+</body>
+
+</html>

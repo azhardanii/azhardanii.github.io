@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syauqi's Private Admin Dashboard &amp; Portfolio CMS</title>
+  <meta name="description"
+    content="Private Admin Portal &amp; Portfolio CMS for Syauqi Azhar Danii. Manage projects, certificates, and traffic analytics.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Big+Shoulders+Display:wght@800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              500: '#10B981',
+              600: '#059669',
+            },
+            darkbg: '#09090B',
+            darkpanel: '#121215',
+            darkpanelalt: '#18181C',
+            darkborder: '#27272A',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            display: ['Big Shoulders Display', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #09090B;
+      color: #FAFAFA;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #09090B;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #27272A;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #10B981;
+    }
+  </style>
+
+  <!-- Load Firebase Config Adapter -->
+  <script src="firebase-config.js"></script>
+
+  <!-- Firebase Modular Web SDK v10 -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    let app, auth, db;
+
+    if (window.isFirebaseConfigured()) {
+      app = initializeApp(window.FIREBASE_CONFIG);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      window.firebaseAuth = auth;
+      window.firebaseDb = db;
+      window.firebaseHelpers = { signInWithEmailAndPassword, signOut, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, setDoc };
+    } else {
+      console.warn("Firebase config is running with client adapter.");
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initAdminAuthGuard();
+    });
+  </script>
+</head>
+
+<body
+  class="font-sans antialiased text-sm bg-darkbg text-zinc-100 min-h-screen selection:bg-emerald-500 selection:text-white">
+
+  <!-- ADMIN AUTHENTICATION GATEKEEPER MODAL -->
+  <div id="authGatekeeper" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
+    <div class="max-w-md w-full p-8 rounded-2xl border border-darkborder bg-darkpanel shadow-2xl space-y-6">
+
+      <div class="text-center space-y-2">
+        <span
+          class="font-mono text-xs uppercase tracking-widest text-emerald-400 font-bold px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">
+          🔒 PRIVATE ADMIN PORTAL
+        </span>
+        <h2 class="font-display font-black text-3xl uppercase text-white tracking-tight">SYAUQI'S DASHBOARD</h2>
+        <p class="text-xs text-zinc-400 font-mono">Enter your admin email and password to access the CMS &amp; live
+          analytics.</p>
+      </div>
+
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" class="space-y-4 font-mono text-xs">
+        <div>
+          <label class="block text-zinc-400 mb-1.5 uppercase font-semibold">Admin Email</label>
+          <input type="email" id="loginEmail" required value="" placeholder="Enter admin email..."
+            class="w-full px-4 py-3 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500 transition-colors">
+        </div>
+
+        <div>
+          <label class="block text-zinc-400 mb-1.5 uppercase font-semibold">Admin Password</label>
+          <input type="password" id="loginPassword" required placeholder="Enter password..."
+            class="w-full px-4 py-3 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500 transition-colors">
+        </div>
+
+        <div id="loginErrorMsg"
+          class="text-red-400 text-xs hidden font-bold p-3 rounded-lg border border-red-500/30 bg-red-500/10">
+          ❌ Access Denied: Invalid admin email or password.
+        </div>
+
+        <button type="submit" id="btnLoginSubmit"
+          class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-black font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2">
+          <span>Authenticate &amp; Access Dashboard</span> →
+        </button>
+      </form>
+
+      <div class="text-center font-mono text-[11px] text-zinc-500 border-t border-darkborder pt-4">
+        Protected by Firebase Authentication &amp; Security Rules.
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- MAIN DASHBOARD APP (VISIBLE ONLY WHEN AUTHENTICATED) -->
+  <div id="dashboardApp" class="hidden">
+
+    <!-- STREAMLINED ELEGANT 1-LINER NAVBAR -->
+    <header class="border-b border-darkborder bg-darkpanel/90 backdrop-blur-md px-4 sm:px-8 py-3.5 sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
+
+        <!-- Left: Brand & Title -->
+        <div class="flex items-center gap-3 flex-shrink-0">
+          <a href="index.html"
+            class="font-mono text-base sm:text-lg font-bold text-white hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+            UQI<span class="text-emerald-500 -ml-1">\></span>
+          </a>
+          <span
+            class="hidden sm:inline-flex px-2 py-0.5 text-[10px] font-mono font-semibold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            ADMIN PORTAL
+          </span>
+        </div>
+
+        <!-- Center: Sleek Segmented Control Tab Switcher -->
+        <div
+          class="flex items-center gap-1 font-mono text-xs border border-darkborder bg-darkpanelalt p-1 rounded-xl flex-shrink-0">
+          <button onclick="switchTab('analytics')" id="tabBtnAnalytics"
+            class="px-3.5 py-1.5 rounded-lg bg-emerald-600 text-black font-bold uppercase transition-all shadow-sm flex items-center gap-1.5">
+            <span>📊 Traffic Analytics</span>
+          </button>
+          <button onclick="switchTab('projects')" id="tabBtnProjects"
+            class="px-3.5 py-1.5 rounded-lg text-zinc-400 hover:text-white font-bold uppercase transition-all flex items-center gap-1.5">
+            <span>📁 Projects CMS</span>
+          </button>
+          <button onclick="switchTab('certificates')" id="tabBtnCertificates"
+            class="px-3.5 py-1.5 rounded-lg text-zinc-400 hover:text-white font-bold uppercase transition-all flex items-center gap-1.5">
+            <span>📜 Certificates CMS</span>
+          </button>
+        </div>
+
+        <!-- Right: Action Controls -->
+        <div class="flex items-center gap-2 font-mono text-xs flex-shrink-0">
+          <a href="index.html" target="_blank"
+            class="px-3 py-1.5 rounded-lg border border-darkborder text-zinc-300 hover:text-white hover:border-zinc-500 transition-all flex items-center gap-1">
+            <span>View Site</span> ↗
+          </a>
+
+          <button onclick="handleAdminLogout()"
+            class="px-3 py-1.5 rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 font-mono transition-colors flex items-center gap-1">
+            <span>Logout</span> 🔒
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+      <!-- ================================================================= -->
+      <!-- TAB 1: TRAFFIC & CLICK ANALYTICS (REALTIME VISITOR TRACKING)     -->
+      <!-- ================================================================= -->
+      <section id="secAnalytics" class="space-y-8">
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-darkborder">
+          <div>
+            <h1 class="font-display font-black text-3xl sm:text-5xl uppercase tracking-tight text-white">
+              ACTUAL TRAFFIC &amp; CLICK ANALYTICS
+            </h1>
+            <p class="text-zinc-400 text-sm mt-1">
+              Strictly actual live visitor sessions, referral sources (IG / Threads / YouTube / Google), time spent, and
+              clicked actions.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <label class="font-mono text-xs text-zinc-400">Channel Filter:</label>
+            <select id="channelFilter" onchange="renderAnalytics()"
+              class="bg-darkpanel border border-darkborder text-white text-xs font-mono rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500">
+              <option value="ALL">All Referral Sources</option>
+              <option value="Instagram">Instagram (IG)</option>
+              <option value="Threads">Threads</option>
+              <option value="YouTube">YouTube</option>
+              <option value="Google Search">Google Search</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="Direct / Bookmark">Direct / Bookmarks</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- KPI STAT CARDS GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="p-6 rounded-2xl border border-darkborder bg-darkpanel">
+            <div class="flex items-center justify-between text-zinc-400 mb-3">
+              <span class="font-mono text-xs uppercase font-semibold">Live Sessions Logged</span>
+              <span class="text-emerald-400 text-xs font-mono font-bold">Actual Data</span>
+            </div>
+            <div id="statTotalVisits" class="font-display font-black text-4xl text-white">0</div>
+            <p class="text-xs text-zinc-500 mt-2 font-mono" id="statVisitsBreakdown">0 Active Sessions</p>
+          </div>
+
+          <div class="p-6 rounded-2xl border border-darkborder bg-darkpanel">
+            <div class="flex items-center justify-between text-zinc-400 mb-3">
+              <span class="font-mono text-xs uppercase font-semibold">Avg. Session Time</span>
+              <span class="text-emerald-400 text-xs font-mono font-bold">Realtime</span>
+            </div>
+            <div id="statAvgDuration" class="font-display font-black text-4xl text-emerald-400">0s</div>
+            <p class="text-xs text-zinc-500 mt-2 font-mono">Actual Time Spent</p>
+          </div>
+
+          <div class="p-6 rounded-2xl border border-darkborder bg-darkpanel">
+            <div class="flex items-center justify-between text-zinc-400 mb-3">
+              <span class="font-mono text-xs uppercase font-semibold">Actual User Clicks</span>
+              <span class="text-amber-400 text-xs font-mono font-bold">Realtime</span>
+            </div>
+            <div id="statTotalClicks" class="font-display font-black text-4xl text-white">0</div>
+            <p class="text-xs text-zinc-500 mt-2 font-mono" id="statClicksBreakdown">Tracked Buttons &amp; Links</p>
+          </div>
+
+          <div class="p-6 rounded-2xl border border-darkborder bg-darkpanel">
+            <div class="flex items-center justify-between text-zinc-400 mb-3">
+              <span class="font-mono text-xs uppercase font-semibold">Top Referral Source</span>
+              <span class="text-emerald-400 text-xs font-mono font-bold">Actual</span>
+            </div>
+            <div id="statTopChannel" class="font-display font-bold text-3xl text-white truncate">None Yet</div>
+            <p class="text-xs text-zinc-500 mt-2 font-mono" id="statTopChannelShare">0% Share</p>
+          </div>
+        </div>
+
+        <!-- REFERRAL CHARTS & DEVICE METRICS -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-8 p-6 rounded-2xl border border-darkborder bg-darkpanel space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-display font-bold text-xl uppercase text-white">Referral Sources Breakdown</h3>
+                <p class="text-xs text-zinc-400 font-mono">Actual visitor traffic origin (IG, Threads, YouTube, Google)
+                </p>
+              </div>
+              <span class="font-mono text-xs text-emerald-400">Actual Counts</span>
+            </div>
+            <div id="channelBarChart" class="space-y-4 pt-2"></div>
+          </div>
+
+          <div class="lg:col-span-4 p-6 rounded-2xl border border-darkborder bg-darkpanel space-y-6">
+            <div>
+              <h3 class="font-display font-bold text-xl uppercase text-white">Device Breakdown</h3>
+              <p class="text-xs text-zinc-400 font-mono">Mobile vs Desktop visitor distribution</p>
+            </div>
+            <div class="space-y-4 font-mono text-xs">
+              <div class="p-4 rounded-xl border border-darkborder bg-darkpanelalt space-y-2">
+                <div class="flex justify-between text-zinc-300">
+                  <span>Mobile Devices</span>
+                  <span class="text-emerald-400 font-bold" id="deviceMobilePct">0%</span>
+                </div>
+                <div class="w-full h-2 rounded bg-zinc-800 overflow-hidden">
+                  <div id="deviceMobileBar" class="h-full bg-emerald-500" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl border border-darkborder bg-darkpanelalt space-y-2">
+                <div class="flex justify-between text-zinc-300">
+                  <span>Desktop &amp; Laptops</span>
+                  <span class="text-emerald-400 font-bold" id="deviceDesktopPct">0%</span>
+                </div>
+                <div class="w-full h-2 rounded bg-zinc-800 overflow-hidden">
+                  <div id="deviceDesktopBar" class="h-full bg-emerald-400" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLICK LOG STREAM TABLE -->
+        <div class="p-6 rounded-2xl border border-darkborder bg-darkpanel space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h3 class="font-display font-bold text-2xl uppercase text-white">Live User Click Log Stream</h3>
+              <p class="text-xs text-zinc-400 font-mono">Actual record of buttons, links, case study cards, and forms
+                clicked by visitors</p>
+            </div>
+            <button onclick="clearAnalyticsLogs()"
+              class="px-3 py-1.5 font-mono text-xs rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors">
+              Clear Actual Data
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left font-mono text-xs">
+              <thead>
+                <tr class="border-b border-darkborder text-zinc-400 uppercase tracking-wider">
+                  <th class="py-3 px-4">Time</th>
+                  <th class="py-3 px-4">Referral Source</th>
+                  <th class="py-3 px-4">Element / Action</th>
+                  <th class="py-3 px-4">Label Text</th>
+                  <th class="py-3 px-4">Device</th>
+                </tr>
+              </thead>
+              <tbody id="clickLogsTableBody" class="divide-y divide-darkborder text-zinc-300"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ================================================================= -->
+      <!-- TAB 2: PROJECTS CMS MANAGER (ADD, EDIT, DELETE PROJECTS)         -->
+      <!-- ================================================================= -->
+      <section id="secProjects" class="space-y-8 hidden">
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-darkborder">
+          <div>
+            <h1 class="font-display font-black text-3xl sm:text-5xl uppercase tracking-tight text-white">
+              PORTFOLIO PROJECTS CMS
+            </h1>
+            <p class="text-zinc-400 text-sm mt-1">
+              Add, edit, or remove portfolio projects with image thumbnails. Changes sync live to your main portfolio
+              website (`index.html`).
+            </p>
+          </div>
+
+          <button onclick="openProjectModal(null)"
+            class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-black font-mono font-bold text-xs uppercase transition-all shadow-lg flex items-center gap-2">
+            <span>+ Add New Project</span>
+          </button>
+        </div>
+
+        <div
+          class="p-3.5 rounded-xl border border-emerald-500/30 bg-emerald-950/20 text-emerald-300 font-mono text-xs flex items-center gap-2">
+          <span>💡</span>
+          <span><strong>Drag &amp; Drop Sorting:</strong> Klik dan drag kartu proyek untuk mengubah urutan tampilan
+            secara kustom. Urutan tersimpan otomatis ke database &amp; web portofolio.</span>
+        </div>
+
+        <!-- PROJECTS LIST CONTAINER -->
+        <div id="projectsCmsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Dynamic Project CMS Cards Rendered Here -->
+        </div>
+
+      </section>
+
+
+      <!-- ================================================================= -->
+      <!-- TAB 3: CERTIFICATES CMS MANAGER (ADD, EDIT, DELETE CERTS)        -->
+      <!-- ================================================================= -->
+      <section id="secCertificates" class="space-y-8 hidden">
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-darkborder">
+          <div>
+            <h1 class="font-display font-black text-3xl sm:text-5xl uppercase tracking-tight text-white">
+              CERTIFICATES &amp; LICENSES CMS
+            </h1>
+            <p class="text-zinc-400 text-sm mt-1">
+              Add, edit, or remove certificates and skill accreditations with image previews. Changes sync live to your
+              main portfolio website (`index.html`).
+            </p>
+          </div>
+
+          <button onclick="openCertModal(null)"
+            class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-black font-mono font-bold text-xs uppercase transition-all shadow-lg flex items-center gap-2">
+            <span>+ Add New Certificate</span>
+          </button>
+        </div>
+
+        <div
+          class="p-3.5 rounded-xl border border-emerald-500/30 bg-emerald-950/20 text-emerald-300 font-mono text-xs flex items-center gap-2">
+          <span>💡</span>
+          <span><strong>Drag &amp; Drop Sorting:</strong> Klik dan drag kartu sertifikat untuk mengubah urutan tampilan
+            secara kustom. Urutan tersimpan otomatis ke database &amp; web portofolio.</span>
+        </div>
+
+        <!-- CERTIFICATES LIST CONTAINER -->
+        <div id="certsCmsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Dynamic Certificate CMS Cards Rendered Here -->
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- ================================================================= -->
+  <!-- ADD / EDIT PROJECT MODAL WITH THUMBNAIL IMAGE UPLOAD              -->
+  <!-- ================================================================= -->
+  <div id="projectModal"
+    class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div
+      class="bg-darkpanel border border-darkborder rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl max-h-[92vh] overflow-y-auto font-mono text-xs">
+      <button onclick="closeProjectModal()"
+        class="absolute top-5 right-5 p-2 text-zinc-400 hover:text-white rounded-lg border border-darkborder">✕</button>
+
+      <h3 id="projectModalTitle" class="font-display font-bold text-2xl uppercase text-white mb-6">Add New Project</h3>
+
+      <form id="projectForm" onsubmit="saveProject(event)" class="space-y-4">
+        <input type="hidden" id="projId">
+
+        <!-- THUMBNAIL IMAGE UPLOAD & URL SECTION -->
+        <div class="p-4 rounded-xl border border-darkborder bg-darkpanelalt space-y-3">
+          <label class="block text-emerald-400 font-bold uppercase">🖼️ Project Thumbnail Image</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+            <div>
+              <label class="block text-zinc-400 mb-1 text-[11px]">Upload Image File from Device:</label>
+              <input type="file" id="projFilePicker" accept="image/*" onchange="handleProjImageFile(this)"
+                class="w-full text-zinc-300 text-xs border border-darkborder rounded-lg bg-darkpanel p-2">
+            </div>
+            <div>
+              <label class="block text-zinc-400 mb-1 text-[11px]">Or Paste Image URL:</label>
+              <input type="text" id="projImageUrl" oninput="previewProjImageUrl(this.value)"
+                placeholder="https://example.com/thumbnail.png"
+                class="w-full px-3 py-2 rounded-lg border border-darkborder bg-darkpanel text-white">
+            </div>
+          </div>
+          <!-- Preview Thumbnail -->
+          <div id="projImagePreviewContainer" class="hidden pt-2 flex items-center gap-3">
+            <img id="projImagePreview" src="" alt="Thumbnail Preview"
+              class="w-24 h-16 object-cover rounded-lg border border-emerald-500/50">
+            <span id="projImagePreviewStatus" class="text-xs text-emerald-400 font-bold">Image Preview Loaded ✓</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-zinc-400 mb-1">Project Title</label>
+            <input type="text" id="projTitle" required placeholder="Digital Event SaaS"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1">Badge Title (e.g. SAAS PLATFORM)</label>
+            <input type="text" id="projBadge" required placeholder="SAAS PLATFORM"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-zinc-400 mb-1">Category</label>
+            <select id="projCategory"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500">
+              <option value="saas">Web Apps / SaaS</option>
+              <option value="website">Websites / Webflow</option>
+              <option value="automation">Tools AI Integration</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1">Result Metric (e.g. +180% Sales)</label>
+            <input type="text" id="projMetric" required placeholder="+180% Sales Conversion"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-zinc-400 mb-1">Problem &amp; Solution Summary</label>
+          <textarea id="projProblemSolution" rows="3" required
+            placeholder="Problem: Old website crashed. Solution: Rebuilt with modern React..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-zinc-400 mb-1">Tech Stack Tags (Comma-Separated)</label>
+          <input type="text" id="projTags" required placeholder="React / Next.js, Tailwind CSS, Supabase"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-zinc-400 mb-1">Demo / Live URL</label>
+            <input type="text" id="projDemoUrl" placeholder="https://example.com"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1">Subtitle / Short Label</label>
+            <input type="text" id="projSubtitle" placeholder="Web Invitation SaaS"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+
+        <div class="pt-4 flex justify-end gap-3 border-t border-darkborder">
+          <button type="button" onclick="closeProjectModal()"
+            class="px-4 py-2 rounded-xl border border-darkborder text-zinc-400 hover:text-white">Cancel</button>
+          <button type="submit"
+            class="px-6 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-black font-bold uppercase">Save
+            Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ================================================================= -->
+  <!-- ADD / EDIT CERTIFICATE MODAL WITH IMAGE UPLOAD                    -->
+  <!-- ================================================================= -->
+  <div id="certModal"
+    class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div
+      class="bg-darkpanel border border-darkborder rounded-2xl max-w-xl w-full p-6 sm:p-8 relative shadow-2xl font-mono text-xs max-h-[92vh] overflow-y-auto">
+      <button onclick="closeCertModal()"
+        class="absolute top-5 right-5 p-2 text-zinc-400 hover:text-white rounded-lg border border-darkborder">✕</button>
+
+      <h3 id="certModalTitle" class="font-display font-bold text-2xl uppercase text-white mb-6">Add New Certificate</h3>
+
+      <form id="certForm" onsubmit="saveCertificate(event)" class="space-y-4">
+        <input type="hidden" id="certId">
+
+        <!-- CERTIFICATE IMAGE UPLOAD & URL SECTION -->
+        <div class="p-4 rounded-xl border border-darkborder bg-darkpanelalt space-y-3">
+          <label class="block text-emerald-400 font-bold uppercase">📜 Certificate Image</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+            <div>
+              <label class="block text-zinc-400 mb-1 text-[11px]">Upload Certificate Image:</label>
+              <input type="file" id="certFilePicker" accept="image/*" onchange="handleCertImageFile(this)"
+                class="w-full text-zinc-300 text-xs border border-darkborder rounded-lg bg-darkpanel p-2">
+            </div>
+            <div>
+              <label class="block text-zinc-400 mb-1 text-[11px]">Or Paste Image URL:</label>
+              <input type="text" id="certImageUrl" oninput="previewCertImageUrl(this.value)"
+                placeholder="https://example.com/certificate.png"
+                class="w-full px-3 py-2 rounded-lg border border-darkborder bg-darkpanel text-white">
+            </div>
+          </div>
+          <!-- Preview Certificate Image -->
+          <div id="certImagePreviewContainer" class="hidden pt-2 flex items-center gap-3">
+            <img id="certImagePreview" src="" alt="Certificate Preview"
+              class="w-24 h-16 object-cover rounded-lg border border-emerald-500/50">
+            <span id="certImagePreviewStatus" class="text-xs text-emerald-400 font-bold">Certificate Preview Loaded
+              ✓</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-zinc-400 mb-1">Certificate Title</label>
+          <input type="text" id="certTitle" required placeholder="Full-Stack Web Development Mastery"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-zinc-400 mb-1">Issuer / Organization</label>
+            <input type="text" id="certIssuer" required placeholder="Digital Engineering Institute"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1">Issue Date / Year</label>
+            <input type="text" id="certDate" required placeholder="2024"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-zinc-400 mb-1">Description / Key Skills Covered</label>
+          <textarea id="certDesc" rows="2" placeholder="Advanced certification covering React, Node.js..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-zinc-400 mb-1">Credential URL / Verification Link</label>
+          <input type="text" id="certUrl" placeholder="https://credential-link.com"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-darkborder bg-darkpanelalt text-white focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <div class="pt-4 flex justify-end gap-3 border-t border-darkborder">
+          <button type="button" onclick="closeCertModal()"
+            class="px-4 py-2 rounded-xl border border-darkborder text-zinc-400 hover:text-white">Cancel</button>
+          <button type="submit"
+            class="px-6 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-black font-bold uppercase">Save
+            Certificate</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- DASHBOARD CONTROLLER SCRIPT -->
+  <script>
+    const LOCAL_AUTH_KEY = 'syauqi_admin_authenticated_v1';
+    let projectsData = [];
+    let certsData = [];
+
+    // Image Upload State Holders
+    let projUploadedBase64 = '';
+    let certUploadedBase64 = '';
+
+    // Automatic Client-Side WebP Converter & Compressor
+    function processImageToWebP(file, maxDimension = 1400, quality = 0.85) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error("Failed to read image file"));
+        reader.onload = function (e) {
+          const img = new Image();
+          img.onerror = () => reject(new Error("Invalid image format"));
+          img.onload = function () {
+            let width = img.width;
+            let height = img.height;
+
+            // Proportional downscaling if image exceeds maxDimension to maintain crispness and optimize size
+            if (width > maxDimension || height > maxDimension) {
+              if (width > height) {
+                height = Math.round((height * maxDimension) / width);
+                width = maxDimension;
+              } else {
+                width = Math.round((width * maxDimension) / height);
+                height = maxDimension;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(img, 0, 0, width, height);
+
+            let webpDataUrl = canvas.toDataURL('image/webp', quality);
+            if (!webpDataUrl.startsWith('data:image/webp')) {
+              webpDataUrl = canvas.toDataURL('image/jpeg', quality);
+            }
+
+            const origKb = Math.round(file.size / 1024);
+            const webpKb = Math.round((webpDataUrl.length * 0.75) / 1024);
+
+            resolve({
+              dataUrl: webpDataUrl,
+              width,
+              height,
+              origKb,
+              webpKb,
+              format: webpDataUrl.startsWith('data:image/webp') ? 'WEBP' : 'JPEG'
+            });
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleProjImageFile(input) {
+      if (input.files && input.files[0]) {
+        try {
+          const statusEl = document.getElementById('projImagePreviewStatus');
+          if (statusEl) statusEl.textContent = 'Compressing to .WEBP... ⏳';
+          const res = await processImageToWebP(input.files[0]);
+          projUploadedBase64 = res.dataUrl;
+          document.getElementById('projImageUrl').value = '';
+          previewProjImageUrl(projUploadedBase64);
+          if (statusEl) {
+            statusEl.textContent = `Auto .${res.format} Compressed (${res.origKb}KB ➔ ${res.webpKb}KB) ✓`;
+          }
+        } catch (err) {
+          alert('Error compressing image: ' + err.message);
+        }
+      }
+    }
+
+    function previewProjImageUrl(url) {
+      const container = document.getElementById('projImagePreviewContainer');
+      const img = document.getElementById('projImagePreview');
+      if (url) {
+        img.src = url;
+        container.classList.remove('hidden');
+      } else {
+        container.classList.add('hidden');
+      }
+    }
+
+    async function handleCertImageFile(input) {
+      if (input.files && input.files[0]) {
+        try {
+          const statusEl = document.getElementById('certImagePreviewStatus');
+          if (statusEl) statusEl.textContent = 'Compressing to .WEBP... ⏳';
+          const res = await processImageToWebP(input.files[0]);
+          certUploadedBase64 = res.dataUrl;
+          document.getElementById('certImageUrl').value = '';
+          previewCertImageUrl(certUploadedBase64);
+          if (statusEl) {
+            statusEl.textContent = `Auto .${res.format} Compressed (${res.origKb}KB ➔ ${res.webpKb}KB) ✓`;
+          }
+        } catch (err) {
+          alert('Error compressing image: ' + err.message);
+        }
+      }
+    }
+
+    function previewCertImageUrl(url) {
+      const container = document.getElementById('certImagePreviewContainer');
+      const img = document.getElementById('certImagePreview');
+      if (url) {
+        img.src = url;
+        container.classList.remove('hidden');
+      } else {
+        container.classList.add('hidden');
+      }
+    }
+
+    // STRICT Admin Auth Guard
+    function initAdminAuthGuard() {
+      if (window.firebaseAuth) {
+        window.firebaseAuth.onAuthStateChanged((user) => {
+          if (user) {
+            grantAdminAccess(user.email);
+          } else {
+            showAuthGatekeeper();
+          }
+        });
+      } else {
+        showAuthGatekeeper();
+        console.warn("Firebase Auth is not initialized. Please check firebase-config.js.");
+      }
+    }
+
+    function showAuthGatekeeper() {
+      document.getElementById('authGatekeeper').classList.remove('hidden');
+      document.getElementById('dashboardApp').classList.add('hidden');
+    }
+
+    function grantAdminAccess(email) {
+      document.getElementById('authGatekeeper').classList.add('hidden');
+      document.getElementById('dashboardApp').classList.remove('hidden');
+      localStorage.setItem(LOCAL_AUTH_KEY, 'true');
+
+      renderAnalytics();
+      loadProjectsCms();
+      loadCertificatesCms();
+    }
+
+    // STRICT AUTHENTICATION HANDLER
+    async function handleAdminLogin(event) {
+      event.preventDefault();
+      const emailInput = document.getElementById('loginEmail').value.trim();
+      const passwordInput = document.getElementById('loginPassword').value;
+      const errorMsg = document.getElementById('loginErrorMsg');
+
+      errorMsg.classList.add('hidden');
+
+      // STRICT VALIDATION (FIREBASE AUTH ONLY)
+      if (window.firebaseAuth) {
+        try {
+          const userCredential = await window.firebaseHelpers.signInWithEmailAndPassword(window.firebaseAuth, emailInput, passwordInput);
+          grantAdminAccess(userCredential.user.email);
+          return;
+        } catch (error) {
+          console.warn("Firebase Login Authentication Failed:", error);
+          localStorage.removeItem(LOCAL_AUTH_KEY);
+          errorMsg.classList.remove('hidden');
+        }
+      } else {
+        alert("Firebase Auth is not configured. Please setup Firebase.");
+      }
+    }
+
+    function handleAdminLogout() {
+      if (window.firebaseAuth) {
+        window.firebaseHelpers.signOut(window.firebaseAuth);
+      }
+      localStorage.removeItem(LOCAL_AUTH_KEY);
+      showAuthGatekeeper();
+    }
+
+    // Switch Dashboard Tabs
+    function switchTab(tab) {
+      ['Analytics', 'Projects', 'Certificates'].forEach(t => {
+        const sec = document.getElementById('sec' + t);
+        const btn = document.getElementById('tabBtn' + t);
+        if (sec) sec.classList.add('hidden');
+        if (btn) {
+          btn.className = "px-3.5 py-1.5 rounded-lg text-zinc-400 hover:text-white font-bold uppercase transition-all flex items-center gap-1.5";
+        }
+      });
+
+      const activeSec = document.getElementById('sec' + tab.charAt(0).toUpperCase() + tab.slice(1));
+      const activeBtn = document.getElementById('tabBtn' + tab.charAt(0).toUpperCase() + tab.slice(1));
+      if (activeSec) activeSec.classList.remove('hidden');
+      if (activeBtn) activeBtn.className = "px-3.5 py-1.5 rounded-lg bg-emerald-600 text-black font-bold uppercase transition-all shadow-sm flex items-center gap-1.5";
+    }
+
+    // PROJECTS CMS MANAGEMENT LOGIC
+    async function loadProjectsCms() {
+      const grid = document.getElementById('projectsCmsGrid');
+      grid.innerHTML = '<div class="col-span-2 py-8 text-center font-mono text-zinc-500">Loading projects data...</div>';
+
+      if (window.firebaseDb) {
+        try {
+          const snapshot = await window.firebaseHelpers.getDocs(window.firebaseHelpers.collection(window.firebaseDb, "projects"));
+          projectsData = [];
+          snapshot.forEach(docSnap => {
+            projectsData.push({ id: docSnap.id, ...docSnap.data() });
+          });
+        } catch (e) {
+          console.warn("Firestore fetch error, using local storage/fallback:", e);
+          projectsData = getLocalProjects();
+        }
+      } else {
+        projectsData = getLocalProjects();
+      }
+
+      if (projectsData.length === 0) {
+        projectsData = window.DEFAULT_PROJECTS;
+      }
+
+      renderProjectsCmsCards();
+    }
+
+    function getLocalProjects() {
+      const saved = localStorage.getItem('syauqi_projects_cms');
+      return saved ? JSON.parse(saved) : window.DEFAULT_PROJECTS;
+    }
+
+    let draggedProjIndex = null;
+    let draggedCertIndex = null;
+
+    function showCmsToast(msg) {
+      const toast = document.getElementById('cmsToast');
+      const msgEl = document.getElementById('cmsToastMsg');
+      if (toast && msgEl) {
+        msgEl.textContent = msg;
+        toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+        }, 2800);
+      }
+    }
+
+    async function syncProjectsOrderToFirestore() {
+      if (!window.firebaseDb) return;
+      try {
+        for (let i = 0; i < projectsData.length; i++) {
+          const p = projectsData[i];
+          if (p.id && !p.id.startsWith('proj_')) {
+            await window.firebaseHelpers.updateDoc(
+              window.firebaseHelpers.doc(window.firebaseDb, "projects", p.id),
+              { order: i }
+            );
+          }
+        }
+      } catch (e) {
+        console.warn("Error syncing projects order to Firestore:", e);
+      }
+    }
+
+    async function syncCertificatesOrderToFirestore() {
+      if (!window.firebaseDb) return;
+      try {
+        for (let i = 0; i < certsData.length; i++) {
+          const c = certsData[i];
+          if (c.id && !c.id.startsWith('cert_')) {
+            await window.firebaseHelpers.updateDoc(
+              window.firebaseHelpers.doc(window.firebaseDb, "certificates", c.id),
+              { order: i }
+            );
+          }
+        }
+      } catch (e) {
+        console.warn("Error syncing certs order to Firestore:", e);
+      }
+    }
+
+    function saveLocalProjects() {
+      localStorage.setItem('syauqi_projects_cms', JSON.stringify(projectsData));
+    }
+
+    function renderProjectsCmsCards() {
+      const grid = document.getElementById('projectsCmsGrid');
+      grid.innerHTML = '';
+
+      projectsData.forEach((p, index) => {
+        const card = document.createElement('div');
+        card.className = "p-6 rounded-2xl border border-darkborder bg-darkpanel space-y-4 overflow-hidden cursor-grab active:cursor-grabbing transition-all hover:border-emerald-500/50";
+        card.setAttribute('draggable', 'true');
+        card.setAttribute('data-index', index);
+
+        const thumbnailHtml = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.title}" class="w-full h-36 object-cover rounded-xl border border-darkborder pointer-events-none">` : '';
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between pb-2 border-b border-darkborder/50 text-zinc-400 font-mono text-xs select-none">
+            <span class="flex items-center gap-1.5 font-bold text-zinc-300">
+              <span class="text-emerald-400">⋮⋮</span> Drag to reorder
+            </span>
+            <span class="px-2 py-0.5 rounded bg-darkpanelalt text-zinc-400 text-[10px] font-bold">Pos #${index + 1}</span>
+          </div>
+
+          ${thumbnailHtml}
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 text-[11px] font-mono font-bold uppercase rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">${p.badge || 'PROJECT'}</span>
+            <span class="text-zinc-400 font-mono text-xs">${p.category || 'saas'}</span>
+          </div>
+
+          <div>
+            <h3 class="font-display font-bold text-2xl uppercase text-white">${p.title}</h3>
+            <p class="text-xs text-zinc-400 mt-1 line-clamp-2">${p.problemSolution || ''}</p>
+          </div>
+
+          <div class="flex flex-wrap gap-1 font-mono text-[11px] text-zinc-300">
+            ${(Array.isArray(p.tags) ? p.tags : (p.tags || '').split(',')).map(t => `<span class="px-2 py-0.5 rounded bg-darkpanelalt border border-darkborder">${t.trim()}</span>`).join('')}
+          </div>
+
+          <div class="pt-4 border-t border-darkborder flex items-center justify-between font-mono text-xs">
+            <span class="text-emerald-400 font-bold">${p.metric || ''}</span>
+            <div class="flex items-center gap-2">
+              <button onclick="openProjectModal('${p.id}')" class="px-3 py-1.5 rounded-lg border border-darkborder text-zinc-300 hover:text-white">Edit</button>
+              <button onclick="deleteProject('${p.id}')" class="px-3 py-1.5 rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10">Delete</button>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener('dragstart', (e) => {
+          draggedProjIndex = index;
+          card.classList.add('opacity-40', 'border-emerald-500', 'ring-2', 'ring-emerald-500/50');
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', index);
+        });
+
+        card.addEventListener('dragend', () => {
+          card.classList.remove('opacity-40', 'border-emerald-500', 'ring-2', 'ring-emerald-500/50');
+          document.querySelectorAll('#projectsCmsGrid > div').forEach(c => {
+            c.classList.remove('border-emerald-400', 'bg-emerald-950/20', 'scale-[1.01]');
+          });
+        });
+
+        card.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          card.classList.add('border-emerald-400', 'bg-emerald-950/20', 'scale-[1.01]');
+        });
+
+        card.addEventListener('dragleave', () => {
+          card.classList.remove('border-emerald-400', 'bg-emerald-950/20', 'scale-[1.01]');
+        });
+
+        card.addEventListener('drop', async (e) => {
+          e.preventDefault();
+          card.classList.remove('border-emerald-400', 'bg-emerald-950/20', 'scale-[1.01]');
+          const targetIndex = index;
+          if (draggedProjIndex !== null && draggedProjIndex !== targetIndex) {
+            const [movedItem] = projectsData.splice(draggedProjIndex, 1);
+            projectsData.splice(targetIndex, 0, movedItem);
+
+            projectsData.forEach((item, idx) => {
+              item.order = idx;
+            });
+
+            saveLocalProjects();
+            await syncProjectsOrderToFirestore();
+            renderProjectsCmsCards();
+            showCmsToast('Urutan proyek berhasil diperbarui!');
+          }
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    function openProjectModal(id) {
+      document.getElementById('projectModal').classList.remove('hidden');
+      const form = document.getElementById('projectForm');
+      form.reset();
+      projUploadedBase64 = '';
+
+      if (id) {
+        document.getElementById('projectModalTitle').textContent = "Edit Project";
+        const proj = projectsData.find(p => p.id === id);
+        if (proj) {
+          document.getElementById('projId').value = proj.id;
+          document.getElementById('projTitle').value = proj.title || '';
+          document.getElementById('projBadge').value = proj.badge || '';
+          document.getElementById('projCategory').value = proj.category || 'saas';
+          document.getElementById('projMetric').value = proj.metric || '';
+          document.getElementById('projProblemSolution').value = proj.problemSolution || '';
+          document.getElementById('projTags').value = Array.isArray(proj.tags) ? proj.tags.join(', ') : proj.tags || '';
+          document.getElementById('projDemoUrl').value = proj.demoUrl || '';
+          document.getElementById('projSubtitle').value = proj.subtitle || '';
+          document.getElementById('projImageUrl').value = proj.imageUrl || '';
+          previewProjImageUrl(proj.imageUrl || '');
+        }
+      } else {
+        document.getElementById('projectModalTitle').textContent = "Add New Project";
+        document.getElementById('projId').value = '';
+        previewProjImageUrl('');
+      }
+    }
+
+    function closeProjectModal() {
+      document.getElementById('projectModal').classList.add('hidden');
+    }
+
+    async function saveProject(event) {
+      event.preventDefault();
+      const id = document.getElementById('projId').value;
+      const title = document.getElementById('projTitle').value.trim();
+      const badge = document.getElementById('projBadge').value.trim();
+      const category = document.getElementById('projCategory').value;
+      const metric = document.getElementById('projMetric').value.trim();
+      const problemSolution = document.getElementById('projProblemSolution').value.trim();
+      const tagsStr = document.getElementById('projTags').value.trim();
+      const tags = tagsStr.split(',').map(t => t.trim()).filter(Boolean);
+      const demoUrl = document.getElementById('projDemoUrl').value.trim();
+      const subtitle = document.getElementById('projSubtitle').value.trim();
+      const imageUrl = projUploadedBase64 || document.getElementById('projImageUrl').value.trim();
+
+      const projObj = { title, badge, category, metric, problemSolution, tags, demoUrl, subtitle, imageUrl, updatedAt: Date.now() };
+
+      if (window.firebaseDb) {
+        try {
+          if (id) {
+            await window.firebaseHelpers.updateDoc(window.firebaseHelpers.doc(window.firebaseDb, "projects", id), projObj);
+          } else {
+            await window.firebaseHelpers.addDoc(window.firebaseHelpers.collection(window.firebaseDb, "projects"), projObj);
+          }
+        } catch (e) {
+          console.error("Firestore save error:", e);
+        }
+      }
+
+      if (id) {
+        const idx = projectsData.findIndex(p => p.id === id);
+        if (idx !== -1) projectsData[idx] = { id, ...projObj };
+      } else {
+        projectsData.unshift({ id: 'proj_' + Math.random().toString(36).substring(2, 9), ...projObj });
+      }
+
+      saveLocalProjects();
+      renderProjectsCmsCards();
+      closeProjectModal();
+      alert("Project saved successfully!");
+    }
+
+    async function deleteProject(id) {
+      if (!confirm("Are you sure you want to delete this project?")) return;
+
+      if (window.firebaseDb) {
+        try {
+          await window.firebaseHelpers.deleteDoc(window.firebaseHelpers.doc(window.firebaseDb, "projects", id));
+        } catch (e) {
+          console.error("Firestore delete error:", e);
+        }
+      }
+
+      projectsData = projectsData.filter(p => p.id !== id);
+      saveLocalProjects();
+      renderProjectsCmsCards();
+    }
+
+
+    // CERTIFICATES CMS MANAGEMENT LOGIC
+    async function loadCertificatesCms() {
+      const grid = document.getElementById('certsCmsGrid');
+      grid.innerHTML = '<div class="col-span-3 py-8 text-center font-mono text-zinc-500">Loading certificates data...</div>';
+
+      if (window.firebaseDb) {
+        try {
+          const snapshot = await window.firebaseHelpers.getDocs(window.firebaseHelpers.collection(window.firebaseDb, "certificates"));
+          certsData = [];
+          snapshot.forEach(docSnap => {
+            certsData.push({ id: docSnap.id, ...docSnap.data() });
+          });
+        } catch (e) {
+          console.warn("Firestore certs error:", e);
+          certsData = getLocalCertificates();
+        }
+      } else {
+        certsData = getLocalCertificates();
+      }
+
+      if (certsData.length === 0) {
+        certsData = window.DEFAULT_CERTIFICATES;
+      }
+
+      renderCertificatesCmsCards();
+    }
+
+    function getLocalCertificates() {
+      const saved = localStorage.getItem('syauqi_certs_cms');
+      return saved ? JSON.parse(saved) : window.DEFAULT_CERTIFICATES;
+    }
+
+    function saveLocalCertificates() {
+      localStorage.setItem('syauqi_certs_cms', JSON.stringify(certsData));
+    }
+
+    function renderCertificatesCmsCards() {
+      const grid = document.getElementById('certsCmsGrid');
+      grid.innerHTML = '';
+
+      certsData.forEach((c, index) => {
+        const card = document.createElement('div');
+        card.className = "p-6 rounded-2xl border border-darkborder bg-darkpanel space-y-4 overflow-hidden cursor-grab active:cursor-grabbing transition-all hover:border-emerald-500/50";
+        card.setAttribute('draggable', 'true');
+        card.setAttribute('data-index', index);
+
+        const certImgHtml = c.imageUrl ? `<img src="${c.imageUrl}" alt="${c.title}" class="w-full h-36 object-cover rounded-xl border border-darkborder pointer-events-none">` : '';
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between pb-2 border-b border-darkborder/50 text-zinc-400 font-mono text-xs select-none">
+            <span class="flex items-center gap-1.5 font-bold text-zinc-300">
+              <span class="text-emerald-400">⋮⋮</span> Drag to reorder
+            </span>
+            <span class="px-2 py-0.5 rounded bg-darkpanelalt text-zinc-400 text-[10px] font-bold">Pos #${index + 1}</span>
+          </div>
+
+          ${certImgHtml}
+          <div class="flex items-center justify-between font-mono text-xs">
+            <span class="px-2.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">${c.issueDate || '2024'}</span>
+            <span class="text-zinc-400">${c.issuer || 'Institute'}</span>
+          </div>
+
+          <div>
+            <h4 class="font-display font-bold text-xl uppercase text-white">${c.title}</h4>
+            <p class="text-xs text-zinc-400 mt-1 line-clamp-2">${c.description || ''}</p>
+          </div>
+
+          <div class="pt-4 border-t border-darkborder flex items-center justify-between font-mono text-xs">
+            <a href="${c.credentialUrl || '#'}" target="_blank" class="text-emerald-400 hover:underline">See Details →</a>
+            <div class="flex items-center gap-2">
+              <button onclick="openCertModal('${c.id}')" class="px-3 py-1 rounded-lg border border-darkborder text-zinc-300 hover:text-white">Edit</button>
+              <button onclick="deleteCertificate('${c.id}')" class="px-3 py-1 rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10">Delete</button>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener('dragstart', (e) => {
+          draggedCertIndex = index;
+          card.classList.add('opacity-40', 'border-emerald-500', 'ring-2', 'ring-emerald-500/50');
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', index);
+        });
+
+        card.addEventListener('dragend', () => {
+          card.classList.remove('opacity-40', 'border-emerald-500', 'ring-2', 'ring-emerald-500/50');
+          document.querySelectorAll('#certsCmsGrid > div').forEach(c => {
+            c.classList.remove('border-emerald-400', 'bg-emerald-950/20', 'scale-[1.01]');
+          });
+        });
+
+        card.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          card.classList.add('border-emerald-400', 'bg-emerald-950/20', 'scale-[1.01]');
+        });
+
+        card.addEventListener('dragleave', () => {
+          card.classList.remove('border-emerald-400', 'bg-emerald-950/20', 'scale-[1.01]');
+        });
+
+        card.addEventListener('drop', async (e) => {
+          e.preventDefault();
+          card.classList.remove('border-emerald-400', 'bg-emerald-950/20', 'scale-[1.01]');
+          const targetIndex = index;
+          if (draggedCertIndex !== null && draggedCertIndex !== targetIndex) {
+            const [movedItem] = certsData.splice(draggedCertIndex, 1);
+            certsData.splice(targetIndex, 0, movedItem);
+
+            certsData.forEach((item, idx) => {
+              item.order = idx;
+            });
+
+            saveLocalCertificates();
+            await syncCertificatesOrderToFirestore();
+            renderCertificatesCmsCards();
+            showCmsToast('Urutan sertifikat berhasil diperbarui!');
+          }
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    function openCertModal(id) {
+      document.getElementById('certModal').classList.remove('hidden');
+      const form = document.getElementById('certForm');
+      form.reset();
+      certUploadedBase64 = '';
+
+      if (id) {
+        document.getElementById('certModalTitle').textContent = "Edit Certificate";
+        const cert = certsData.find(c => c.id === id);
+        if (cert) {
+          document.getElementById('certId').value = cert.id;
+          document.getElementById('certTitle').value = cert.title || '';
+          document.getElementById('certIssuer').value = cert.issuer || '';
+          document.getElementById('certDate').value = cert.issueDate || '';
+          document.getElementById('certDesc').value = cert.description || '';
+          document.getElementById('certUrl').value = cert.credentialUrl || '';
+          document.getElementById('certImageUrl').value = cert.imageUrl || '';
+          previewCertImageUrl(cert.imageUrl || '');
+        }
+      } else {
+        document.getElementById('certModalTitle').textContent = "Add New Certificate";
+        document.getElementById('certId').value = '';
+        previewCertImageUrl('');
+      }
+    }
+
+    function closeCertModal() {
+      document.getElementById('certModal').classList.add('hidden');
+    }
+
+    async function saveCertificate(event) {
+      event.preventDefault();
+      const id = document.getElementById('certId').value;
+      const title = document.getElementById('certTitle').value.trim();
+      const issuer = document.getElementById('certIssuer').value.trim();
+      const issueDate = document.getElementById('certDate').value.trim();
+      const description = document.getElementById('certDesc').value.trim();
+      const credentialUrl = document.getElementById('certUrl').value.trim();
+      const imageUrl = certUploadedBase64 || document.getElementById('certImageUrl').value.trim();
+
+      const certObj = { title, issuer, issueDate, description, credentialUrl, imageUrl, updatedAt: Date.now() };
+
+      if (window.firebaseDb) {
+        try {
+          if (id) {
+            await window.firebaseHelpers.updateDoc(window.firebaseHelpers.doc(window.firebaseDb, "certificates", id), certObj);
+          } else {
+            await window.firebaseHelpers.addDoc(window.firebaseHelpers.collection(window.firebaseDb, "certificates"), certObj);
+          }
+        } catch (e) {
+          console.error("Firestore cert save error:", e);
+        }
+      }
+
+      if (id) {
+        const idx = certsData.findIndex(c => c.id === id);
+        if (idx !== -1) certsData[idx] = { id, ...certObj };
+      } else {
+        certsData.unshift({ id: 'cert_' + Math.random().toString(36).substring(2, 9), ...certObj });
+      }
+
+      saveLocalCertificates();
+      renderCertificatesCmsCards();
+      closeCertModal();
+      alert("Certificate saved successfully!");
+    }
+
+    async function deleteCertificate(id) {
+      if (!confirm("Are you sure you want to delete this certificate?")) return;
+
+      if (window.firebaseDb) {
+        try {
+          await window.firebaseHelpers.deleteDoc(window.firebaseHelpers.doc(window.firebaseDb, "certificates", id));
+        } catch (e) {
+          console.error("Firestore cert delete error:", e);
+        }
+      }
+
+      certsData = certsData.filter(c => c.id !== id);
+      saveLocalCertificates();
+      renderCertificatesCmsCards();
+    }
+
+
+    // ANALYTICS RENDER LOGIC
+    const STORAGE_KEY = 'syauqi_analytics_v1';
+
+    function getAnalyticsData() {
+      const data = localStorage.getItem(STORAGE_KEY);
+      if (!data) return { sessions: [], clicks: [] };
+      try { return JSON.parse(data); } catch (e) { return { sessions: [], clicks: [] }; }
+    }
+
+    function formatTime(ts) {
+      return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+
+    function formatDuration(seconds) {
+      if (!seconds || seconds <= 0) return '0s';
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+    }
+
+    function renderAnalytics() {
+      const store = getAnalyticsData();
+      const selectedFilter = document.getElementById('channelFilter').value;
+
+      let sessions = store.sessions || [];
+      let clicks = store.clicks || [];
+
+      if (selectedFilter !== 'ALL') {
+        sessions = sessions.filter(s => s.channel === selectedFilter);
+        clicks = clicks.filter(c => c.channel === selectedFilter);
+      }
+
+      const totalVisits = sessions.length;
+      document.getElementById('statTotalVisits').textContent = totalVisits;
+      document.getElementById('statVisitsBreakdown').textContent = `${totalVisits} Session(s) Logged`;
+
+      const totalSecs = sessions.reduce((acc, s) => acc + (s.duration || 1), 0);
+      const avgSecs = totalVisits > 0 ? Math.round(totalSecs / totalVisits) : 0;
+      document.getElementById('statAvgDuration').textContent = formatDuration(avgSecs);
+
+      document.getElementById('statTotalClicks').textContent = clicks.length;
+      document.getElementById('statClicksBreakdown').textContent = `${clicks.length} Click(s) Tracked`;
+
+      const channelCounts = { 'Instagram': 0, 'Threads': 0, 'YouTube': 0, 'Google Search': 0, 'LinkedIn': 0, 'Direct / Bookmark': 0 };
+      sessions.forEach(s => {
+        const ch = s.channel || 'Direct / Bookmark';
+        if (channelCounts[ch] !== undefined) channelCounts[ch]++;
+        else channelCounts['Direct / Bookmark']++;
+      });
+
+      let topChannel = 'None Yet', maxCount = 0;
+      Object.keys(channelCounts).forEach(ch => {
+        if (channelCounts[ch] > maxCount) { maxCount = channelCounts[ch]; topChannel = ch; }
+      });
+
+      const topPct = totalVisits > 0 ? Math.round((maxCount / totalVisits) * 100) : 0;
+      document.getElementById('statTopChannel').textContent = totalVisits > 0 ? topChannel : 'None Yet';
+      document.getElementById('statTopChannelShare').textContent = totalVisits > 0 ? `${topPct}% of total visits` : '0% Share';
+
+      const chartContainer = document.getElementById('channelBarChart');
+      chartContainer.innerHTML = '';
+
+      if (totalVisits === 0) {
+        chartContainer.innerHTML = `<div class="py-8 text-center text-zinc-500 font-mono">No live traffic recorded yet. Share your portfolio link to start tracking real-time visits!</div>`;
+      } else {
+        Object.keys(channelCounts).forEach(ch => {
+          const cnt = channelCounts[ch];
+          const pct = totalVisits > 0 ? Math.round((cnt / totalVisits) * 100) : 0;
+          const row = document.createElement('div');
+          row.className = 'space-y-1.5';
+          row.innerHTML = `
+            <div class="flex justify-between font-mono text-xs text-zinc-300">
+              <span class="flex items-center gap-2 font-semibold">
+                <span class="w-2 h-2 rounded-full ${ch === 'Instagram' ? 'bg-pink-500' : ch === 'Threads' ? 'bg-purple-400' : ch === 'YouTube' ? 'bg-red-500' : 'bg-emerald-500'}"></span>
+                ${ch}
+              </span>
+              <span>${cnt} Visit(s) (${pct}%)</span>
+            </div>
+            <div class="w-full h-2.5 rounded-full bg-zinc-800 overflow-hidden">
+              <div class="h-full bg-emerald-500 transition-all duration-500" style="width: ${cnt > 0 ? Math.max(4, pct) : 0}%"></div>
+            </div>
+          `;
+          chartContainer.appendChild(row);
+        });
+      }
+
+      let mobileCount = sessions.filter(s => s.device === 'Mobile').length;
+      let desktopCount = sessions.filter(s => s.device === 'Desktop').length;
+      const totalDev = mobileCount + desktopCount;
+      const mobPct = totalDev > 0 ? Math.round((mobileCount / totalDev) * 100) : 0;
+      const deskPct = totalDev > 0 ? 100 - mobPct : 0;
+
+      document.getElementById('deviceMobilePct').textContent = mobPct + '%';
+      document.getElementById('deviceMobileBar').style.width = mobPct + '%';
+      document.getElementById('deviceDesktopPct').textContent = deskPct + '%';
+      document.getElementById('deviceDesktopBar').style.width = deskPct + '%';
+
+      const tableBody = document.getElementById('clickLogsTableBody');
+      tableBody.innerHTML = '';
+
+      if (clicks.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-zinc-500 font-mono">No click actions recorded yet. Interact with index.html to generate logs!</td></tr>`;
+        return;
+      }
+
+      clicks.slice(0, 50).forEach(clk => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-darkpanelalt/60 transition-colors';
+        tr.innerHTML = `
+          <td class="py-3 px-4 text-zinc-400">${formatTime(clk.timestamp)}</td>
+          <td class="py-3 px-4 font-semibold text-emerald-400">${clk.channel || 'Direct'}</td>
+          <td class="py-3 px-4 font-mono text-zinc-200"><span class="px-2 py-0.5 rounded bg-zinc-800 text-[11px]">${clk.element || 'action'}</span></td>
+          <td class="py-3 px-4 text-zinc-300">${clk.text || 'Clicked Action'}</td>
+          <td class="py-3 px-4 text-zinc-400">${clk.device || 'Mobile'}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function clearAnalyticsLogs() {
+      if (confirm('Are you sure you want to clear all actual analytics tracking logs?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        renderAnalytics();
+      }
+    }
+
+    setInterval(renderAnalytics, 3000);
+  </script>
+
+  <!-- CMS Toast Notification -->
+  <div id="cmsToast"
+    class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none px-5 py-3.5 rounded-xl bg-emerald-500 text-black font-mono text-xs font-bold shadow-2xl border border-emerald-300 flex items-center gap-2">
+    <span class="text-base">✓</span> <span id="cmsToastMsg">Order updated successfully!</span>
+  </div>
+
+</body>
+
+</html>
