@@ -89,9 +89,13 @@
       console.warn("Firebase config is running with client adapter.");
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', () => {
+        initAdminAuthGuard();
+      });
+    } else {
       initAdminAuthGuard();
-    });
+    }
   </script>
 </head>
 
