@@ -186,6 +186,11 @@
 
         <!-- Right: Action Controls -->
         <div class="flex items-center gap-2 font-mono text-xs flex-shrink-0">
+          <button id="btnSyncLocal" onclick="syncLocalToFirestore()"
+            class="px-3 py-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 font-bold transition-all flex items-center gap-1">
+            <span>☁️ Push Local Data to Cloud</span>
+          </button>
+
           <a href="index.html" target="_blank"
             class="px-3 py-1.5 rounded-lg border border-darkborder text-zinc-300 hover:text-white hover:border-zinc-500 transition-all flex items-center gap-1">
             <span>View Site</span> ↗
@@ -900,6 +905,65 @@
         }
       } catch (e) {
         console.warn("Error syncing certs order to Firestore:", e);
+      }
+    }
+
+    async function syncLocalToFirestore() {
+      if (!window.firebaseDb) {
+        alert("Firebase database belum terhubung. Pastikan firebase-config.js terisi.");
+        return;
+      }
+
+      const btn = document.getElementById('btnSyncLocal');
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) btn.innerHTML = '<span>⏳ Uploading...</span>';
+
+      try {
+        const localProjectsStr = localStorage.getItem('syauqi_projects_cms');
+        const localCertsStr = localStorage.getItem('syauqi_certs_cms');
+
+        const localProjects = localProjectsStr ? JSON.parse(localProjectsStr) : projectsData;
+        const localCerts = localCertsStr ? JSON.parse(localCertsStr) : certsData;
+
+        let projSuccess = 0;
+        for (let i = 0; i < localProjects.length; i++) {
+          const item = { ...localProjects[i] };
+          const rawId = item.id;
+          delete item.id;
+          item.order = i;
+          item.updatedAt = Date.now();
+
+          if (rawId && !rawId.startsWith('proj_')) {
+            await window.firebaseHelpers.setDoc(window.firebaseHelpers.doc(window.firebaseDb, "projects", rawId), item);
+          } else {
+            await window.firebaseHelpers.addDoc(window.firebaseHelpers.collection(window.firebaseDb, "projects"), item);
+          }
+          projSuccess++;
+        }
+
+        let certSuccess = 0;
+        for (let i = 0; i < localCerts.length; i++) {
+          const item = { ...localCerts[i] };
+          const rawId = item.id;
+          delete item.id;
+          item.order = i;
+          item.updatedAt = Date.now();
+
+          if (rawId && !rawId.startsWith('cert_')) {
+            await window.firebaseHelpers.setDoc(window.firebaseHelpers.doc(window.firebaseDb, "certificates", rawId), item);
+          } else {
+            await window.firebaseHelpers.addDoc(window.firebaseHelpers.collection(window.firebaseDb, "certificates"), item);
+          }
+          certSuccess++;
+        }
+
+        alert(`✅ Selesai! Berhasil mengunggah ${projSuccess} Proyek dan ${certSuccess} Sertifikat dari LocalStorage ke Firebase Cloud Firestore!`);
+        await loadProjectsCms();
+        await loadCertificatesCms();
+      } catch (err) {
+        alert("❌ Gagal unggah ke Firestore Cloud: " + err.message);
+      } finally {
+        if (btn) btn.innerHTML = originalText;
       }
     }
 
