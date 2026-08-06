@@ -186,11 +186,6 @@
 
         <!-- Right: Action Controls -->
         <div class="flex items-center gap-2 font-mono text-xs flex-shrink-0">
-          <button id="btnSyncLocal" onclick="syncLocalToFirestore()"
-            class="px-3 py-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 font-bold transition-all flex items-center gap-1">
-            <span>☁️ Push Local Data to Cloud</span>
-          </button>
-
           <a href="index.html" target="_blank"
             class="px-3 py-1.5 rounded-lg border border-darkborder text-zinc-300 hover:text-white hover:border-zinc-500 transition-all flex items-center gap-1">
             <span>View Site</span> ↗
@@ -1113,43 +1108,40 @@
 
       if (window.firebaseDb) {
         try {
-          if (id) {
+          if (id && !id.startsWith('proj_')) {
             await window.firebaseHelpers.updateDoc(window.firebaseHelpers.doc(window.firebaseDb, "projects", id), projObj);
           } else {
             await window.firebaseHelpers.addDoc(window.firebaseHelpers.collection(window.firebaseDb, "projects"), projObj);
           }
         } catch (e) {
           console.error("Firestore save error:", e);
+          alert("Gagal menyimpan ke Firestore Cloud: " + e.message);
+          return;
         }
       }
 
-      if (id) {
-        const idx = projectsData.findIndex(p => p.id === id);
-        if (idx !== -1) projectsData[idx] = { id, ...projObj };
-      } else {
-        projectsData.unshift({ id: 'proj_' + Math.random().toString(36).substring(2, 9), ...projObj });
-      }
-
-      saveLocalProjects();
-      renderProjectsCmsCards();
+      await loadProjectsCms();
       closeProjectModal();
-      alert("Project saved successfully!");
+      showCmsToast("Proyek berhasil disimpan ke Firestore Cloud!");
     }
 
     async function deleteProject(id) {
-      if (!confirm("Are you sure you want to delete this project?")) return;
+      if (!confirm("Hapus proyek ini secara permanen dari Firestore Cloud?")) return;
 
       if (window.firebaseDb) {
         try {
-          await window.firebaseHelpers.deleteDoc(window.firebaseHelpers.doc(window.firebaseDb, "projects", id));
+          if (id && !id.startsWith('proj_')) {
+            await window.firebaseHelpers.deleteDoc(window.firebaseHelpers.doc(window.firebaseDb, "projects", id));
+          }
         } catch (e) {
           console.error("Firestore delete error:", e);
+          alert("Gagal menghapus dari Firestore Cloud: " + e.message);
+          return;
         }
       }
 
-      projectsData = projectsData.filter(p => p.id !== id);
-      saveLocalProjects();
-      renderProjectsCmsCards();
+      await loadProjectsCms();
+      showCmsToast("Proyek berhasil dihapus dari Firestore Cloud!");
     }
 
 
@@ -1320,43 +1312,40 @@
 
       if (window.firebaseDb) {
         try {
-          if (id) {
+          if (id && !id.startsWith('cert_')) {
             await window.firebaseHelpers.updateDoc(window.firebaseHelpers.doc(window.firebaseDb, "certificates", id), certObj);
           } else {
             await window.firebaseHelpers.addDoc(window.firebaseHelpers.collection(window.firebaseDb, "certificates"), certObj);
           }
         } catch (e) {
           console.error("Firestore cert save error:", e);
+          alert("Gagal menyimpan ke Firestore Cloud: " + e.message);
+          return;
         }
       }
 
-      if (id) {
-        const idx = certsData.findIndex(c => c.id === id);
-        if (idx !== -1) certsData[idx] = { id, ...certObj };
-      } else {
-        certsData.unshift({ id: 'cert_' + Math.random().toString(36).substring(2, 9), ...certObj });
-      }
-
-      saveLocalCertificates();
-      renderCertificatesCmsCards();
+      await loadCertificatesCms();
       closeCertModal();
-      alert("Certificate saved successfully!");
+      showCmsToast("Sertifikat berhasil disimpan ke Firestore Cloud!");
     }
 
     async function deleteCertificate(id) {
-      if (!confirm("Are you sure you want to delete this certificate?")) return;
+      if (!confirm("Hapus sertifikat ini secara permanen dari Firestore Cloud?")) return;
 
       if (window.firebaseDb) {
         try {
-          await window.firebaseHelpers.deleteDoc(window.firebaseHelpers.doc(window.firebaseDb, "certificates", id));
+          if (id && !id.startsWith('cert_')) {
+            await window.firebaseHelpers.deleteDoc(window.firebaseHelpers.doc(window.firebaseDb, "certificates", id));
+          }
         } catch (e) {
           console.error("Firestore cert delete error:", e);
+          alert("Gagal menghapus dari Firestore Cloud: " + e.message);
+          return;
         }
       }
 
-      certsData = certsData.filter(c => c.id !== id);
-      saveLocalCertificates();
-      renderCertificatesCmsCards();
+      await loadCertificatesCms();
+      showCmsToast("Sertifikat berhasil dihapus dari Firestore Cloud!");
     }
 
 
